@@ -1,0 +1,6 @@
+## Interface: 90105
+## Author: lilbit
+## Version: 90105.00
+## Title: BitUI
+## Notes: Personal UI with customizations for ls_UI
+## RequiredDeps: ls_UI
