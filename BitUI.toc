@@ -6,3 +6,5 @@
 ## RequiredDeps: ls_UI
 
 core\core.lua
+
+init.lua
