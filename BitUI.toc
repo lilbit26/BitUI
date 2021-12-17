@@ -4,3 +4,5 @@
 ## Title: BitUI
 ## Notes: Personal UI with customizations for ls_UI
 ## RequiredDeps: ls_UI
+
+core\core.lua
