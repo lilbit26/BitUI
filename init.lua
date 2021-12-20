@@ -9,6 +9,9 @@ local Z = ns.Z
         UIParent
 ]]
 
+-- constants
+Z.iconCoords = {4 / 64, 60 / 64, 4 / 64, 60 / 64}
+
 Z:RegisterEvent("PLAYER_LOGIN", function()
     -- UI scale
     local _, height = GetPhysicalScreenSize()

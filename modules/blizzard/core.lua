@@ -6,4 +6,6 @@ function B:Load()
     self:Chat()
     self:Fonts()
     self:ObjectiveTracker()
+    self:RaidFrame()
+    self:RaidFrameManager()
 end

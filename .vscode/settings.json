@@ -4,13 +4,17 @@
         "hooksecurefunc",
 
         "CreateFrame",
+        "DebuffTypeColor",
         "GetPhysicalScreenSize",
         "SetCVar",
+        "UnitGroupRolesAssigned",
 
         "ChatBubbleFont",
         "ChatFrame1EditBoxLanguage",
         "ObjectiveTrackerFrame",
         "UIParent",
+
+        "MEMBERS_PER_RAID_GROUP",
 
         // AddOns
         "ls_UI"
