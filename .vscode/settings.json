@@ -11,6 +11,10 @@
 
         "ChatBubbleFont",
         "ChatFrame1EditBoxLanguage",
+        "GuildInstanceDifficulty",
+        "Minimap",
+        "MiniMapChallengeMode",
+        "MiniMapInstanceDifficulty",
         "ObjectiveTrackerFrame",
         "UIParent",
 
