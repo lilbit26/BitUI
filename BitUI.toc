@@ -22,3 +22,4 @@ modules\blizzard\objectivetracker.lua
 modules\blizzard\raidframe.lua
 modules\misc\core.lua
 modules\misc\cursor.lua
+modules\tooltips\tooltips.lua
