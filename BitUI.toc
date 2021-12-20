@@ -13,3 +13,5 @@ core\statusbar.lua
 init.lua
 
 modules\auras\auras.lua
+modules\bars\core.lua
+modules\bars\actionbars.lua
