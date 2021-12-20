@@ -1,0 +1,18 @@
+{
+    "Lua.diagnostics.globals": [
+        // Blizzard
+        "hooksecurefunc",
+
+        "CreateFrame",
+        "GetPhysicalScreenSize",
+        "SetCVar",
+
+        "ChatBubbleFont",
+        "ChatFrame1EditBoxLanguage",
+        "ObjectiveTrackerFrame",
+        "UIParent",
+
+        // AddOns
+        "ls_UI"
+    ],
+}

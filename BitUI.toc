@@ -15,3 +15,7 @@ init.lua
 modules\auras\auras.lua
 modules\bars\core.lua
 modules\bars\actionbars.lua
+modules\blizzard\core.lua
+modules\blizzard\chat.lua
+modules\blizzard\fonts.lua
+modules\blizzard\objectivetracker.lua
