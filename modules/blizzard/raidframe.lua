@@ -39,7 +39,7 @@ function B:RaidFrame()
         Z:Hide(_G[borderFrame:GetName() .. "BorderRight"])
 
         local border = E:CreateBorder(frame.borderFrame)
-        border:SetTexture("Interface\\AddOns\\ls_UI\\assets\\border-thick")
+        border:SetTexture(Z.assetPath .. "border-thick")
         border:SetSize(16)
         border:SetOffset(-8)
 
@@ -48,21 +48,21 @@ function B:RaidFrame()
 
             -- inlay
             local inlay = E:CreateBorder(unitFrame.healthBar)
-            inlay:SetTexture("Interface\\AddOns\\ls_UI\\assets\\unit-frame-inlay-none")
+            inlay:SetTexture(Z.assetPath .. "unit-frame-inlay-none")
             inlay:SetAlpha(0.8)
 
             if i == 1 then
-                inlay.TOPLEFT:SetTexture("Interface\\AddOns\\ls_UI\\assets\\unit-frame-inlay-both")
-                inlay.TOPRIGHT:SetTexture("Interface\\AddOns\\ls_UI\\assets\\unit-frame-inlay-both")
+                inlay.TOPLEFT:SetTexture(Z.assetPath .. "unit-frame-inlay-both")
+                inlay.TOPRIGHT:SetTexture(Z.assetPath .. "unit-frame-inlay-both")
             elseif i == MEMBERS_PER_RAID_GROUP then
-                    inlay.BOTTOMLEFT:SetTexture("Interface\\AddOns\\ls_UI\\assets\\unit-frame-inlay-both")
-                    inlay.BOTTOMRIGHT:SetTexture("Interface\\AddOns\\ls_UI\\assets\\unit-frame-inlay-both")
+                    inlay.BOTTOMLEFT:SetTexture(Z.assetPath .. "unit-frame-inlay-both")
+                    inlay.BOTTOMRIGHT:SetTexture(Z.assetPath .. "unit-frame-inlay-both")
             end
 
             -- sep
             if i ~= MEMBERS_PER_RAID_GROUP then
                 local left = borderFrame:CreateTexture(nil, "OVERLAY", nil, 7)
-                left:SetTexture("Interface\\AddOns\\ls_UI\\assets\\border-thick-sep")
+                left:SetTexture(Z.assetPath .. "border-thick-sep")
                 left:SetTexCoord(0.421875, 0.53125, 0.609375, 0.53125, 0.421875, 0.03125, 0.609375, 0.03125)
                 left:SetSize(16 / 2, 12 / 2)
                 left:SetPoint("BOTTOMLEFT", unitFrame, "BOTTOMLEFT", 1, -3)
@@ -71,7 +71,7 @@ function B:RaidFrame()
                 E:SmoothColor(left)
 
                 local right = frame.borderFrame:CreateTexture(nil, "OVERLAY", nil, 7)
-                right:SetTexture("Interface\\AddOns\\ls_UI\\assets\\border-thick-sep")
+                right:SetTexture(Z.assetPath .. "border-thick-sep")
                 right:SetTexCoord(0.21875, 0.53125, 0.40625, 0.53125, 0.21875, 0.03125, 0.40625, 0.03125)
                 right:SetSize(16 / 2, 12 / 2)
                 right:SetPoint("BOTTOMRIGHT", unitFrame, "BOTTOMRIGHT", -1, -3)
@@ -80,7 +80,7 @@ function B:RaidFrame()
                 E:SmoothColor(right)
 
                 local mid = frame.borderFrame:CreateTexture(nil, "OVERLAY", nil, 7)
-                mid:SetTexture("Interface\\AddOns\\ls_UI\\assets\\border-thick-sep", "REPEAT", "REPEAT")
+                mid:SetTexture(Z.assetPath .. "border-thick-sep", "REPEAT", "REPEAT")
                 mid:SetTexCoord(0.015625, 1, 0.203125, 1, 0.015625, 0, 0.203125, 0)
                 mid:SetPoint("TOPLEFT", left, "TOPRIGHT", 0, 0)
                 mid:SetPoint("BOTTOMRIGHT", right, "BOTTOMLEFT", 0, 0)
@@ -107,7 +107,7 @@ function B:RaidFrame()
         if frame.roleIcon then
             local role = UnitGroupRolesAssigned(frame.unit)
             if (role == "TANK" or role == "HEALER" or role == "DAMAGER") then
-                frame.roleIcon:SetTexture("Interface\\AddOns\\ls_UI\\assets\\unit-frame-icons")
+                frame.roleIcon:SetTexture(Z.assetPath .. "unit-frame-icons")
                 frame.roleIcon:SetSize(14, 14)
                 frame.roleIcon:SetTexCoord(unpack(roleIcons[role]))
             end
@@ -168,9 +168,9 @@ function B:RaidFrame()
 
         Z:Hide(frame.background)
 
-        frame.healthBar:SetStatusBarTexture("Interface\\AddOns\\ls_UI\\assets\\statusbar-texture")
+        frame.healthBar:SetStatusBarTexture(Z.assetPath .. "statusbar-texture")
 
-        frame.totalAbsorb:SetTexture("Interface\\AddOns\\ls_UI\\assets\\absorb", "REPEAT", "REPEAT")
+        frame.totalAbsorb:SetTexture(Z.assetPath .. "absorb", "REPEAT", "REPEAT")
         frame.totalAbsorb:SetVertexColor(53 / 256, 187 / 256, 244 / 256)
         frame.totalAbsorb:SetHorizTile(true)
         frame.totalAbsorb:SetVertTile(true)
@@ -271,7 +271,7 @@ function B:RaidFrameManager()
         Z:Hide(_G[frame:GetName() .. "BorderRight"])
 
         local border = E:CreateBorder(texParent)
-        border:SetTexture("Interface\\AddOns\\ls_UI\\assets\\border-thick")
+        border:SetTexture(Z.assetPath .. "border-thick")
         border:SetSize(16)
         border:SetOffset(-16)
 
@@ -282,7 +282,7 @@ function B:RaidFrameManager()
         sep:SetAllPoints()
 
         local left1 = sep:CreateTexture(nil, "OVERLAY", nil, 7)
-        left1:SetTexture("Interface\\AddOns\\ls_UI\\assets\\border-thick-sep")
+        left1:SetTexture(Z.assetPath .. "border-thick-sep")
         left1:SetTexCoord(0.421875, 0.53125, 0.609375, 0.53125, 0.421875, 0.03125, 0.609375, 0.03125)
         left1:SetSize(16 / 2, 12 / 2)
         left1:SetPoint("TOPLEFT", frame, "TOPLEFT", -10, -21)
@@ -291,7 +291,7 @@ function B:RaidFrameManager()
         E:SmoothColor(left1)
 
         local right1 = sep:CreateTexture(nil, "OVERLAY", nil, 7)
-        right1:SetTexture("Interface\\AddOns\\ls_UI\\assets\\border-thick-sep")
+        right1:SetTexture(Z.assetPath .. "border-thick-sep")
         right1:SetTexCoord(0.21875, 0.53125, 0.40625, 0.53125, 0.21875, 0.03125, 0.40625, 0.03125)
         right1:SetSize(16 / 2, 12 / 2)
         right1:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -7, -21)
@@ -300,7 +300,7 @@ function B:RaidFrameManager()
         E:SmoothColor(right1)
 
         local mid1 = sep:CreateTexture(nil, "OVERLAY", nil, 7)
-        mid1:SetTexture("Interface\\AddOns\\ls_UI\\assets\\border-thick-sep", "REPEAT", "REPEAT")
+        mid1:SetTexture(Z.assetPath .. "border-thick-sep", "REPEAT", "REPEAT")
         mid1:SetTexCoord(0.015625, 1, 0.203125, 1, 0.015625, 0, 0.203125, 0)
         mid1:SetPoint("TOPLEFT", left1, "TOPRIGHT", 0, 0)
         mid1:SetPoint("BOTTOMRIGHT", right1, "BOTTOMLEFT", 0, 0)
@@ -309,7 +309,7 @@ function B:RaidFrameManager()
         E:SmoothColor(mid1)
 
         local left2 = sep:CreateTexture(nil, "BACKGROUND", nil, 7)
-        left2:SetTexture("Interface\\AddOns\\ls_UI\\assets\\border-thick-sep")
+        left2:SetTexture(Z.assetPath .. "border-thick-sep")
         left2:SetTexCoord(0.421875, 0.53125, 0.609375, 0.53125, 0.421875, 0.03125, 0.609375, 0.03125)
         left2:SetSize(16 / 2, 12 / 2)
         left2:SetPoint("BOTTOMLEFT", frame.displayFrame.filterOptions, "BOTTOMLEFT", -10, 6)
@@ -318,7 +318,7 @@ function B:RaidFrameManager()
         E:SmoothColor(left2)
 
         local right2 = sep:CreateTexture(nil, "BACKGROUND", nil, 7)
-        right2:SetTexture("Interface\\AddOns\\ls_UI\\assets\\border-thick-sep")
+        right2:SetTexture(Z.assetPath .. "border-thick-sep")
         right2:SetTexCoord(0.21875, 0.53125, 0.40625, 0.53125, 0.21875, 0.03125, 0.40625, 0.03125)
         right2:SetSize(16 / 2, 12 / 2)
         right2:SetPoint("BOTTOMRIGHT", frame.displayFrame.filterOptions, "BOTTOMRIGHT", 3, 6)
@@ -327,7 +327,7 @@ function B:RaidFrameManager()
         E:SmoothColor(right2)
 
         local mid2 = sep:CreateTexture(nil, "BACKGROUND", nil, 7)
-        mid2:SetTexture("Interface\\AddOns\\ls_UI\\assets\\border-thick-sep", "REPEAT", "REPEAT")
+        mid2:SetTexture(Z.assetPath .. "border-thick-sep", "REPEAT", "REPEAT")
         mid2:SetTexCoord(0.015625, 1, 0.203125, 1, 0.015625, 0, 0.203125, 0)
         mid2:SetPoint("TOPLEFT", left2, "TOPRIGHT", 0, 0)
         mid2:SetPoint("BOTTOMRIGHT", right2, "BOTTOMLEFT", 0, 0)

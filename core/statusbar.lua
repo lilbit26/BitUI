@@ -13,7 +13,7 @@ hooksecurefunc(E, "SetStatusBarSkin", function(_, object, flag)
 
     if not object.Border then
         local border = E:CreateBorder(object)
-        border:SetTexture("Interface\\AddOns\\ls_UI\\assets\\border-thin")
+        border:SetTexture(Z.assetPath .. "border-thin")
         border:SetSize(16)
         border:SetOffset(-8)
         object.Border = border

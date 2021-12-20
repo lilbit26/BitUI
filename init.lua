@@ -10,6 +10,7 @@ local Z = ns.Z
 ]]
 
 -- constants
+Z.assetPath = "Interface\\AddOns\\ls_UI\\assets\\"
 Z.iconCoords = {4 / 64, 60 / 64, 4 / 64, 60 / 64}
 
 Z:RegisterEvent("PLAYER_LOGIN", function()
