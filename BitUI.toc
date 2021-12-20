@@ -20,3 +20,5 @@ modules\blizzard\chat.lua
 modules\blizzard\fonts.lua
 modules\blizzard\objectivetracker.lua
 modules\blizzard\raidframe.lua
+modules\misc\core.lua
+modules\misc\cursor.lua

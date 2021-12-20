@@ -3,9 +3,13 @@
         // Blizzard
         "hooksecurefunc",
 
+        "C_Timer",
         "CreateFrame",
         "DebuffTypeColor",
+        "GetCursorPosition",
         "GetPhysicalScreenSize",
+        "GetScaledCursorPosition",
+        "Lerp",
         "SetCVar",
         "UnitGroupRolesAssigned",
 
@@ -16,8 +20,10 @@
         "MiniMapChallengeMode",
         "MiniMapInstanceDifficulty",
         "ObjectiveTrackerFrame",
+        "StaticPopupDialogs",
         "UIParent",
 
+        "DELETE_ITEM_CONFIRM_STRING",
         "MEMBERS_PER_RAID_GROUP",
 
         // AddOns
