@@ -11,3 +11,5 @@ core\cooldown.lua
 core\statusbar.lua
 
 init.lua
+
+modules\auras\auras.lua
