@@ -19,3 +19,4 @@ modules\blizzard\core.lua
 modules\blizzard\chat.lua
 modules\blizzard\fonts.lua
 modules\blizzard\objectivetracker.lua
+modules\blizzard\raidframe.lua
