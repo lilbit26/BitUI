@@ -21,9 +21,7 @@ Z:HookAddOn("Kui_Nameplates", function()
     function plugin:Create(frame)
     end
 
-    function plugin:OnEnable()
-        for _, frame in addon:Frames() do
-            self:Create(frame)
-        end
+    function plugin:Initialise()
+        self:RegisterEvent("Create")
     end
 end)
