@@ -33,6 +33,9 @@
         "MEMBERS_PER_RAID_GROUP",
 
         // AddOns
-        "ls_UI"
+        "ls_UI",
+        "LSFocusFrame",
+        "LSPlayerFrame",
+        "LSTargetFrame"
     ],
 }

@@ -23,3 +23,9 @@ modules\blizzard\raidframe.lua
 modules\misc\core.lua
 modules\misc\cursor.lua
 modules\tooltips\tooltips.lua
+modules\unitframes\core.lua
+modules\unitframes\elements\auras.lua
+modules\unitframes\elements\castbar.lua
+modules\unitframes\units\focus.lua
+modules\unitframes\units\player.lua
+modules\unitframes\units\target.lua
