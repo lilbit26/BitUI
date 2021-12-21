@@ -13,6 +13,8 @@ local M = Z:GetModule("Misc")
         UIParent
 ]]
 
+-- from FreeUI by Solor
+
 local pollingRate, numLines = 0.01, 45
 local lines = {}
 for i = 1, numLines do
