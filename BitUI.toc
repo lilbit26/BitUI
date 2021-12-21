@@ -20,6 +20,7 @@ modules\blizzard\chat.lua
 modules\blizzard\fonts.lua
 modules\blizzard\objectivetracker.lua
 modules\blizzard\raidframe.lua
+modules\minimap\minimap.lua
 modules\misc\core.lua
 modules\misc\cursor.lua
 modules\tooltips\tooltips.lua
@@ -29,8 +30,8 @@ modules\unitframes\elements\castbar.lua
 modules\unitframes\units\focus.lua
 modules\unitframes\units\player.lua
 modules\unitframes\units\target.lua
-modules\unitframes\skins\core.lua
-modules\unitframes\skins\addons\bigwigs.lua
-modules\unitframes\skins\addons\details.lua
-modules\unitframes\skins\addons\kuinameplates.lua
-modules\unitframes\skins\addons\weakauras.lua
+modules\skins\core.lua
+modules\skins\addons\bigwigs.lua
+modules\skins\addons\details.lua
+modules\skins\addons\kuinameplates.lua
+modules\skins\addons\weakauras.lua
