@@ -32,10 +32,19 @@
         "DELETE_ITEM_CONFIRM_STRING",
         "MEMBERS_PER_RAID_GROUP",
 
+        // Libraries
+        "LibStub",
+
         // AddOns
         "ls_UI",
         "LSFocusFrame",
         "LSPlayerFrame",
-        "LSTargetFrame"
+        "LSTargetFrame",
+
+        "BigWigsAPI",
+        "Details",
+        "KuiNameplates",
+        "KuiNameplatesCore",
+        "WeakAuras"
     ],
 }

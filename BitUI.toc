@@ -31,3 +31,6 @@ modules\unitframes\units\player.lua
 modules\unitframes\units\target.lua
 modules\unitframes\skins\core.lua
 modules\unitframes\skins\addons\bigwigs.lua
+modules\unitframes\skins\addons\details.lua
+modules\unitframes\skins\addons\kuinameplates.lua
+modules\unitframes\skins\addons\weakauras.lua
