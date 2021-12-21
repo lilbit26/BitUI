@@ -3,6 +3,9 @@ local addonName, ns = ...
 --[[
     Blizzard:
         CreateFrame
+
+    ls_UI:
+        ls_UI
 ]]
 
 -- ls_UI
