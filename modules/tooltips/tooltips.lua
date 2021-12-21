@@ -33,4 +33,6 @@ function T:Load()
     end)
 
     Z:Hide(GameTooltipStatusBar)
+    GameTooltipStatusBar:SetScript("OnShow", nil)
+    GameTooltipStatusBar:SetScript("OnValueChanged", nil)
 end
