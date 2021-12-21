@@ -15,8 +15,8 @@ function UF:Castbar(frame)
         bar.TexParent:SetAllPoints(bar.Holder)
 
         if bar.Icon then
-            bar.Icon:SetPoint("TOPLFET", bar.Holder, "TOPLEFT", 0, 0)
-            bar:SetPoint("TOPLFET", 2 + bar.Holder:GetHieght() * 1.5, 0)
+            bar.Icon:SetPoint("TOPLEFT", bar.Holder, "TOPLEFT", 0, 0)
+            bar:SetPoint("TOPLEFT", 2 + bar.Holder:GetHeight() * 1.5, 0)
             bar:SetPoint("BOTTOMRIGHT", 0, 0)
         else
             bar:SetAllPoints()
