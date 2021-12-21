@@ -22,6 +22,6 @@ Z:HookAddOn("Kui_Nameplates", function()
     end
 
     function plugin:Initialise()
-        self:RegisterEvent("Create")
+        self:RegisterMessage("Create")
     end
 end)
