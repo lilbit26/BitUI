@@ -164,7 +164,7 @@ function B:RaidFrame()
     end)
 
     hooksecurefunc("DefaultCompactUnitFrameSetup", function(frame)
-        if frame.handled == true then return end
+        if frame.handled then return end
 
         Z:Hide(frame.background)
 
