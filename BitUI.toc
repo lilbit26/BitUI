@@ -2,7 +2,7 @@
 ## Author: lilbit
 ## Version: 90105.00
 ## Title: BitUI
-## Notes: Personal UI with customizations for ls_UI
+## Notes: Personal UI based on ls_UI
 ## RequiredDeps: ls_UI
 
 core\core.lua
@@ -29,3 +29,5 @@ modules\unitframes\elements\castbar.lua
 modules\unitframes\units\focus.lua
 modules\unitframes\units\player.lua
 modules\unitframes\units\target.lua
+modules\unitframes\skins\core.lua
+modules\unitframes\skins\addons\bigwigs.lua
