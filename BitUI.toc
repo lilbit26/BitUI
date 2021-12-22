@@ -4,6 +4,7 @@
 ## Title: BitUI
 ## Notes: Personal UI based on ls_UI
 ## RequiredDeps: ls_UI
+## OptionalDeps: BigWigs, Details, Kui_Nameplates, WeakAuras
 
 core\core.lua
 core\utils.lua
