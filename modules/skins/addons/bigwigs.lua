@@ -3,6 +3,7 @@ local Z, E = ns.Z, ns.E
 
 --[[
     BigWigs:
+        BigWigs
         BigWigsAPI
 ]]
 
@@ -34,4 +35,8 @@ Z:HookAddOn("BigWigs", function()
         -- BarStopped = function(bar) end,
         GetStyleName = function() return "ls_UI style bar skin" end,
     })
+
+    -- disable nameplate bars
+    local plugin = BigWigs:GetPlugin("Bars")
+    plugin.BigWigs_StartNameplateBar = function() end
 end)
