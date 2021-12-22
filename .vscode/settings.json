@@ -37,6 +37,8 @@
 
         // AddOns
         "ls_UI",
+        "LSBuffHeader",
+        "LSDebuffHeader",
         "LSFocusFrame",
         "LSPlayerFrame",
         "LSTargetFrame",
