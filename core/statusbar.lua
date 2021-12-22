@@ -8,7 +8,7 @@ local Z, E = ns.Z, ns.E
 
 hooksecurefunc(E, "SetStatusBarSkin", function(_, object, flag)
     for i = 1, 4 do
-        Z:Hide(object.Tube[i])
+        E:ForceHide(object.Tube[i])
     end
 
     local border = object.border

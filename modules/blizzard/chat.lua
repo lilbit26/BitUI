@@ -1,5 +1,5 @@
 local _, ns = ...
-local Z = ns.Z
+local Z, E = ns.Z, ns.E
 local B = Z:GetModule("Blizzard")
 
 --[[
@@ -9,5 +9,5 @@ local B = Z:GetModule("Blizzard")
 
 function B:Chat()
     -- edit box language
-    Z:Hide(ChatFrame1EditBoxLanguage)
+    E:ForceHide(ChatFrame1EditBoxLanguage)
 end

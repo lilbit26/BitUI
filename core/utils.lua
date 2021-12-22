@@ -14,23 +14,6 @@ function Z:HookAddOn(name, callback)
     end)
 end
 
-do
-    local hidden = CreateFrame("Frame")
-    hidden:Hide()
-
-    function Z:Hide(object)
-        if type(object) == "string" then
-            object = _G[object]
-        end
-
-        object:SetParent(hidden)
-
-        if object.UnregisterAllEvents then
-            object:UnregisterAllEvents()
-        end
-    end
-end
-
 function Z:HandleFont(object, font, size, flag, shadow)
     local f, s = object:GetFont()
 

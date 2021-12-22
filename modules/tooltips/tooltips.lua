@@ -1,5 +1,5 @@
 local _, ns = ...
-local Z = ns.Z
+local Z, E = ns.Z, ns.E
 local T = Z:AddModule("Tooltips")
 
 --[[
@@ -32,7 +32,7 @@ function T:Load()
         end
     end)
 
-    Z:Hide(GameTooltipStatusBar)
+    E:ForceHide(GameTooltipStatusBar)
     GameTooltipStatusBar:SetScript("OnShow", nil)
     GameTooltipStatusBar:SetScript("OnValueChanged", nil)
 end

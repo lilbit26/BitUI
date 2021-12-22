@@ -21,7 +21,7 @@ local roleIcons = {
 function B:RaidFrame()
     hooksecurefunc('CompactRaidGroup_InitializeForGroup', function(frame)
         if frame and frame.title then
-            Z:Hide(frame.title)
+            E:ForceHide(frame.title)
         end
     end)
 
@@ -29,14 +29,14 @@ function B:RaidFrame()
         local borderFrame = frame.borderFrame
         if borderFrame.handled then return end
 
-        Z:Hide(_G[borderFrame:GetName() .. "BorderTopLeft"])
-        Z:Hide(_G[borderFrame:GetName() .. "BorderTopRight"])
-        Z:Hide(_G[borderFrame:GetName() .. "BorderBottomLeft"])
-        Z:Hide(_G[borderFrame:GetName() .. "BorderBottomRight"])
-        Z:Hide(_G[borderFrame:GetName() .. "BorderTop"])
-        Z:Hide(_G[borderFrame:GetName() .. "BorderBottom"])
-        Z:Hide(_G[borderFrame:GetName() .. "BorderLeft"])
-        Z:Hide(_G[borderFrame:GetName() .. "BorderRight"])
+        E:ForceHide(_G[borderFrame:GetName() .. "BorderTopLeft"])
+        E:ForceHide(_G[borderFrame:GetName() .. "BorderTopRight"])
+        E:ForceHide(_G[borderFrame:GetName() .. "BorderBottomLeft"])
+        E:ForceHide(_G[borderFrame:GetName() .. "BorderBottomRight"])
+        E:ForceHide(_G[borderFrame:GetName() .. "BorderTop"])
+        E:ForceHide(_G[borderFrame:GetName() .. "BorderBottom"])
+        E:ForceHide(_G[borderFrame:GetName() .. "BorderLeft"])
+        E:ForceHide(_G[borderFrame:GetName() .. "BorderRight"])
 
         local border = E:CreateBorder(frame.borderFrame)
         border:SetTexture(Z.assetPath .. "border-thick")
@@ -139,7 +139,7 @@ function B:RaidFrame()
     hooksecurefunc("CompactUnitFrame_UtilSetDebuff", function(debuffFrame, _, _, _, _, _, ...)
         if debuffFrame.handled then return end
 
-        Z:Hide(debuffFrame.border)
+        E:ForceHide(debuffFrame.border)
 
         local bg = debuffFrame:CreateTexture(nil, "BACKGROUND")
         bg:SetTexture("Interface\\BUTTONS\\WHITE8X8")
@@ -166,7 +166,7 @@ function B:RaidFrame()
     hooksecurefunc("DefaultCompactUnitFrameSetup", function(frame)
         if frame.handled then return end
 
-        Z:Hide(frame.background)
+        E:ForceHide(frame.background)
 
         frame.healthBar:SetStatusBarTexture(Z.assetPath .. "statusbar-texture")
 
@@ -174,7 +174,7 @@ function B:RaidFrame()
         frame.totalAbsorb:SetVertexColor(53 / 256, 187 / 256, 244 / 256)
         frame.totalAbsorb:SetHorizTile(true)
         frame.totalAbsorb:SetVertTile(true)
-        Z:Hide(frame.totalAbsorbOverlay)
+        E:ForceHide(frame.totalAbsorbOverlay)
 
         frame.overAbsorbGlow:ClearAllPoints()
         frame.overAbsorbGlow:SetPoint("BOTTOMLEFT", frame.healthBar, "BOTTOMRIGHT", -5, 0)
@@ -219,11 +219,11 @@ function B:RaidFrame()
             end
         end
 
-        Z:Hide(frame.horizTopBorder)
-        Z:Hide(frame.horizBottomBorder)
-        Z:Hide(frame.vertLeftBorder)
-        Z:Hide(frame.vertRightBorder)
-        Z:Hide(frame.horizDivider)
+        E:ForceHide(frame.horizTopBorder)
+        E:ForceHide(frame.horizBottomBorder)
+        E:ForceHide(frame.vertLeftBorder)
+        E:ForceHide(frame.vertRightBorder)
+        E:ForceHide(frame.horizDivider)
 
         frame.selectionHighlight:ClearAllPoints()
         frame.selectionHighlight:SetPoint("TOPLEFT", 2, -2)
@@ -262,21 +262,21 @@ function B:RaidFrameManager()
         texParent:SetPoint("TOPLEFT", frame, "TOPLEFT", -10, 2)
         texParent:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 1, -1)
 
-        Z:Hide(_G[frame:GetName() .. "BorderTopLeft"])
-        Z:Hide(_G[frame:GetName() .. "BorderTopRight"])
-        Z:Hide(_G[frame:GetName() .. "BorderBottomLeft"])
-        Z:Hide(_G[frame:GetName() .. "BorderBottomRight"])
-        Z:Hide(_G[frame:GetName() .. "BorderTop"])
-        Z:Hide(_G[frame:GetName() .. "BorderBottom"])
-        Z:Hide(_G[frame:GetName() .. "BorderRight"])
+        E:ForceHide(_G[frame:GetName() .. "BorderTopLeft"])
+        E:ForceHide(_G[frame:GetName() .. "BorderTopRight"])
+        E:ForceHide(_G[frame:GetName() .. "BorderBottomLeft"])
+        E:ForceHide(_G[frame:GetName() .. "BorderBottomRight"])
+        E:ForceHide(_G[frame:GetName() .. "BorderTop"])
+        E:ForceHide(_G[frame:GetName() .. "BorderBottom"])
+        E:ForceHide(_G[frame:GetName() .. "BorderRight"])
 
         local border = E:CreateBorder(texParent)
         border:SetTexture(Z.assetPath .. "border-thick")
         border:SetSize(16)
         border:SetOffset(-16)
 
-        Z:Hide(_G[frame:GetName() .. "DisplayFrameHeaderDelineator"])
-        Z:Hide(_G[frame:GetName() .. "DisplayFrameFilterOptionsFooterDelineator"])
+        E:ForceHide(_G[frame:GetName() .. "DisplayFrameHeaderDelineator"])
+        E:ForceHide(_G[frame:GetName() .. "DisplayFrameFilterOptionsFooterDelineator"])
 
         local sep = CreateFrame("Frame", nil, texParent)
         sep:SetAllPoints()
