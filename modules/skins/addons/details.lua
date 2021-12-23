@@ -1,5 +1,6 @@
 local _, ns = ...
 local Z, E = ns.Z, ns.E
+local S = Z:GetModule("Skins")
 
 --[[
     Blizzard:
@@ -9,7 +10,7 @@ local Z, E = ns.Z, ns.E
         Details
 ]]
 
-Z:HookAddOn("Details", function()
+S:AddSkin("Details", function()
     local instance = Details:GetInstance(1)
     if instance.handled then return end
 

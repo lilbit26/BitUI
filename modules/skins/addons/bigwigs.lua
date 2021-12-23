@@ -1,5 +1,6 @@
 local addonName, ns = ...
 local Z, E = ns.Z, ns.E
+local S = Z:GetModule("Skins")
 
 --[[
     BigWigs:
@@ -7,7 +8,7 @@ local Z, E = ns.Z, ns.E
         BigWigsAPI
 ]]
 
-Z:HookAddOn("BigWigs", function()
+S:AddSkin("BigWigs", function()
     BigWigsAPI:RegisterBarStyle(addonName, {
         apiVersion = 1,
         version = 1,

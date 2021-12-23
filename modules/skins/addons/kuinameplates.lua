@@ -1,5 +1,6 @@
 local _, ns = ...
 local Z = ns.Z
+local S = Z:GetModule("Skins")
 
 --[[
     Libraries:
@@ -10,7 +11,7 @@ local Z = ns.Z
         KuiNameplatesCore
 ]]
 
-Z:HookAddOn("Kui_Nameplates", function()
+S:AddSkin("Kui_Nameplates", function()
     local addon = KuiNameplates
     local core = KuiNameplatesCore
     local kui = LibStub("Kui-1.0")

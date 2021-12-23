@@ -10,6 +10,7 @@
         "GetGuildInfo",
         "GetPhysicalScreenSize",
         "GetScaledCursorPosition",
+        "IsAddOnLoaded",
         "IsShiftKeyDown",
         "Lerp",
         "SetCVar",

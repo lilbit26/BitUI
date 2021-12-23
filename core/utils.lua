@@ -6,14 +6,6 @@ local Z = ns.Z
         CreateFrame
 ]]
 
-function Z:HookAddOn(name, callback)
-    self:RegisterEvent("ADDON_LOADED", function(addOnName)
-        if name == addOnName then
-            callback()
-        end
-    end)
-end
-
 function Z:HandleFont(object, font, size, flag, shadow)
     local f, s = object:GetFont()
 

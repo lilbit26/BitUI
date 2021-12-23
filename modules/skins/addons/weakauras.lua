@@ -1,5 +1,6 @@
 local _, ns = ...
 local Z, E = ns.Z, ns.E
+local S = Z:GetModule("Skins")
 
 --[[
     Blizzard:
@@ -96,7 +97,7 @@ local function AuraBar(region)
     region.handled = true
 end
 
-Z:HookAddOn("WeakAuras", function()
+S:AddSkin("WeakAuras", function()
     local icon = WeakAuras.regionTypes.icon
     local aurabar = WeakAuras.regionTypes.aurabar
 
