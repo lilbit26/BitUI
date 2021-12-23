@@ -15,7 +15,10 @@
         "Lerp",
         "SetCVar",
         "UnitGroupRolesAssigned",
+        "UnitGUID",
         "UnitIsPlayer",
+        "UnitIsUnit",
+        "UnitName",
 
         "ChatBubbleFont",
         "ChatFrame1EditBoxLanguage",
