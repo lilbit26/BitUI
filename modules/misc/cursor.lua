@@ -15,10 +15,14 @@ local M = Z:GetModule("Misc")
 
 -- from FreeUI by Solor
 
+local parent = CreateFrame("Frame", nil, UIParent)
+parent:SetFrameStrata("TOOLTIP")
+parent:SetFrameLevel(30)
+
 local pollingRate, numLines = 0.01, 45
 local lines = {}
 for i = 1, numLines do
-    local line = UIParent:CreateLine()
+    local line = parent:CreateLine()
     line:SetThickness(Lerp(5, 1, (i - 1) / numLines))
     line:SetColorTexture(1, 1, 1)
 

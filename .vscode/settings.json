@@ -22,6 +22,7 @@
 
         "ChatBubbleFont",
         "ChatFrame1EditBoxLanguage",
+        "CompactPartyFrame",
         "GameTooltip",
         "GameTooltipStatusBar",
         "GameTooltipTextLeft2",
@@ -33,8 +34,13 @@
         "StaticPopupDialogs",
         "UIParent",
 
+        "CompactPartyFrame_OnLoad",
+        "CompactRaidGroup_InitializeForGroup",
+        "CompactRaidGroup_UpdateBorder",
+
         "DELETE_ITEM_CONFIRM_STRING",
         "MEMBERS_PER_RAID_GROUP",
+        "NUM_RAID_GROUPS",
 
         // Libraries
         "LibStub",

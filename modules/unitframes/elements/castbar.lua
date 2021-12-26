@@ -25,5 +25,5 @@ function UF:Castbar(frame)
         bar.handled = true
     end)
 
-    frame.Castbar:SetFrameLevel(frame:GetFrameLevel() + 10)
+    -- frame.Castbar:SetFrameLevel(frame:GetFrameLevel() + 10)
 end

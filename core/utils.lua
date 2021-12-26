@@ -1,10 +1,20 @@
 local _, ns = ...
-local Z = ns.Z
+local Z, E = ns.Z, ns.E
 
 --[[
     Blizzard:
         CreateFrame
 ]]
+
+E.FormatNumber = function(_, v)
+	if v >= 1E6 then
+		return string.format("%.2fM", v / 1E6)
+	elseif v >= 1E3 then
+		return string.format("%.1fK", v / 1E3)
+	else
+		return v
+	end
+end
 
 function Z:HandleFont(object, font, size, flag, shadow)
     local f, s = object:GetFont()

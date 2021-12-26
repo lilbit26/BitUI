@@ -6,10 +6,16 @@ local B = Z:GetModule("Blizzard")
     Blizzard:
         hooksecurefunc
 
+        CompactPartyFrame
         DebuffTypeColor
         UnitGroupRolesAssigned
 
+        CompactPartyFrame_OnLoad
+        CompactRaidGroup_InitializeForGroup
+        CompactRaidGroup_UpdateBorder
+
         MEMBERS_PER_RAID_GROUP
+        NUM_RAID_GROUPS
 ]]
 
 local roleIcons = {
@@ -19,7 +25,13 @@ local roleIcons = {
 }
 
 function B:RaidFrame()
-    hooksecurefunc('CompactRaidGroup_InitializeForGroup', function(frame)
+    hooksecurefunc("CompactPartyFrame_Generate", function ()
+        if CompactPartyFrame and CompactPartyFrame.title then
+            CompactPartyFrame.title:SetText("")
+        end
+    end)
+
+    hooksecurefunc("CompactRaidGroup_InitializeForGroup", function(frame)
         if frame and frame.title then
             E:ForceHide(frame.title)
         end
@@ -47,21 +59,24 @@ function B:RaidFrame()
             local unitFrame = _G[frame:GetName() .. "Member" .. i]
 
             -- inlay
-            local inlay = E:CreateBorder(unitFrame.healthBar)
+            local inlay = E:CreateBorder(unitFrame, "OVERLAY", -7)
+            inlay:SetOffset(-9)
             inlay:SetTexture(Z.assetPath .. "unit-frame-inlay-none")
             inlay:SetAlpha(0.8)
 
             if i == 1 then
                 inlay.TOPLEFT:SetTexture(Z.assetPath .. "unit-frame-inlay-both")
                 inlay.TOPRIGHT:SetTexture(Z.assetPath .. "unit-frame-inlay-both")
+                -- inlay.TOPLEFT:SetAlpha(1)
+                -- inlay.TOPRIGHT:SetAlpha(1)
             elseif i == MEMBERS_PER_RAID_GROUP then
-                    inlay.BOTTOMLEFT:SetTexture(Z.assetPath .. "unit-frame-inlay-both")
-                    inlay.BOTTOMRIGHT:SetTexture(Z.assetPath .. "unit-frame-inlay-both")
+                inlay.BOTTOMLEFT:SetTexture(Z.assetPath .. "unit-frame-inlay-both")
+                inlay.BOTTOMRIGHT:SetTexture(Z.assetPath .. "unit-frame-inlay-both")
             end
 
             -- sep
             if i ~= MEMBERS_PER_RAID_GROUP then
-                local left = borderFrame:CreateTexture(nil, "OVERLAY", nil, 7)
+                local left = borderFrame:CreateTexture(nil, "OVERLAY")
                 left:SetTexture(Z.assetPath .. "border-thick-sep")
                 left:SetTexCoord(0.421875, 0.53125, 0.609375, 0.53125, 0.421875, 0.03125, 0.609375, 0.03125)
                 left:SetSize(16 / 2, 12 / 2)
@@ -70,7 +85,7 @@ function B:RaidFrame()
                 left:SetTexelSnappingBias(0)
                 E:SmoothColor(left)
 
-                local right = frame.borderFrame:CreateTexture(nil, "OVERLAY", nil, 7)
+                local right = frame.borderFrame:CreateTexture(nil, "OVERLAY")
                 right:SetTexture(Z.assetPath .. "border-thick-sep")
                 right:SetTexCoord(0.21875, 0.53125, 0.40625, 0.53125, 0.21875, 0.03125, 0.40625, 0.03125)
                 right:SetSize(16 / 2, 12 / 2)
@@ -79,7 +94,7 @@ function B:RaidFrame()
                 right:SetTexelSnappingBias(0)
                 E:SmoothColor(right)
 
-                local mid = frame.borderFrame:CreateTexture(nil, "OVERLAY", nil, 7)
+                local mid = frame.borderFrame:CreateTexture(nil, "OVERLAY")
                 mid:SetTexture(Z.assetPath .. "border-thick-sep", "REPEAT", "REPEAT")
                 mid:SetTexCoord(0.015625, 1, 0.203125, 1, 0.015625, 0, 0.203125, 0)
                 mid:SetPoint("TOPLEFT", left, "TOPRIGHT", 0, 0)
@@ -115,15 +130,17 @@ function B:RaidFrame()
     end)
 
     hooksecurefunc("CompactUnitFrame_UtilSetBuff", function(buffFrame)
-        if buffFrame.handled then return end
-
         buffFrame.icon:SetTexCoord(unpack(Z.iconCoords))
 
-        local bg = buffFrame:CreateTexture(nil, "BACKGROUND")
-        bg:SetTexture("Interface\\BUTTONS\\WHITE8X8")
-        bg:SetVertexColor(0, 0, 0, 1)
-        bg:SetPoint("TOPLEFT", -1, 1)
-        bg:SetPoint("BOTTOMRIGHT", 1, -1)
+        if not buffFrame.bg then
+            local bg = buffFrame:CreateTexture(nil, "BACKGROUND")
+            bg:SetTexture("Interface\\BUTTONS\\WHITE8X8")
+            bg:SetVertexColor(0, 0, 0, 1)
+            bg:SetPoint("TOPLEFT", -1, 1)
+            bg:SetPoint("BOTTOMRIGHT", 1, -1)
+
+            buffFrame.bg = bg
+        end
 
         buffFrame.count:ClearAllPoints()
         buffFrame.count:SetPoint("TOPLEFT", 1, 0)
@@ -132,23 +149,23 @@ function B:RaidFrame()
         buffFrame.count:SetJustifyV("MIDDLE")
         buffFrame.count:SetParent(buffFrame.cooldown)
         Z:HandleFont(buffFrame.count, nil, 10, "OUTLINE", false)
-
-        buffFrame.handled = true
     end)
 
-    hooksecurefunc("CompactUnitFrame_UtilSetDebuff", function(debuffFrame, _, _, _, _, _, ...)
-        if debuffFrame.handled then return end
+    hooksecurefunc("CompactUnitFrame_UtilSetDebuff", function(debuffFrame)
+        debuffFrame.icon:SetTexCoord(unpack(Z.iconCoords))
 
+        if not debuffFrame.bg then
+            local bg = debuffFrame:CreateTexture(nil, "BACKGROUND")
+            bg:SetTexture("Interface\\BUTTONS\\WHITE8X8")
+            bg:SetPoint("TOPLEFT", -1, 1)
+            bg:SetPoint("BOTTOMRIGHT", 1, -1)
+
+            debuffFrame.bg = bg
+        end
+
+        local r, g, b = debuffFrame.border:GetVertexColor()
+        debuffFrame.bg:SetVertexColor(r, g, b)
         E:ForceHide(debuffFrame.border)
-
-        local bg = debuffFrame:CreateTexture(nil, "BACKGROUND")
-        bg:SetTexture("Interface\\BUTTONS\\WHITE8X8")
-        bg:SetVertexColor(0, 0, 0, 1)
-        bg:SetPoint("TOPLEFT", -1, 1)
-        bg:SetPoint("BOTTOMRIGHT", 1, -1)
-
-        local _, _, _, debuffType = ...
-        bg:SetVertexColor(unpack(DebuffTypeColor[debuffType] or DebuffTypeColor["none"]))
 
         debuffFrame.count:ClearAllPoints()
         debuffFrame.count:SetPoint("TOPLEFT", 1, 0)
@@ -159,13 +176,9 @@ function B:RaidFrame()
         Z:HandleFont(debuffFrame.count, nil, 10, "OUTLINE", false)
 
         debuffFrame:SetSize(20, 20)
-
-        debuffFrame.handled = true
     end)
 
     hooksecurefunc("DefaultCompactUnitFrameSetup", function(frame)
-        if frame.handled then return end
-
         E:ForceHide(frame.background)
 
         frame.healthBar:SetStatusBarTexture(Z.assetPath .. "statusbar-texture")
@@ -233,9 +246,30 @@ function B:RaidFrame()
         frame.aggroHighlight:SetPoint("TOPLEFT", 2, -2)
         frame.aggroHighlight:SetPoint("BOTTOMRIGHT", -2, 2)
         frame.aggroHighlight:SetTexCoord(0.00781250, 0.55468750, 0.28906250, 0.55468750)
-
-        frame.handled = true
     end)
+
+    hooksecurefunc("CompactRaidFrameContainer_ApplyToFrames", function(_, _, func, ...)
+
+    end)
+
+    for i = 1, NUM_RAID_GROUPS do
+        local frame = _G["CompactRaidGroup"..i]
+
+        if frame then
+            CompactRaidGroup_InitializeForGroup(frame, i)
+            CompactRaidGroup_UpdateBorder(frame)
+        end
+    end
+
+    local frame = CompactPartyFrame
+    if frame then
+        CompactPartyFrame_OnLoad(frame)
+        CompactRaidGroup_UpdateBorder(frame)
+
+        if frame.title then
+            frame.title:SetText("")
+        end
+    end
 end
 
 function B:RaidFrameManager()
@@ -252,6 +286,12 @@ function B:RaidFrameManager()
 
         if frame.sep then
             frame.sep:Show()
+
+            if not IsInRaid() then
+                for _, tex in pairs(frame.sep.sep2) do
+                    tex:Hide()
+                end
+            end
         end
     end)
 
@@ -281,7 +321,7 @@ function B:RaidFrameManager()
         local sep = CreateFrame("Frame", nil, texParent)
         sep:SetAllPoints()
 
-        local left1 = sep:CreateTexture(nil, "OVERLAY", nil, 7)
+        local left1 = sep:CreateTexture(nil, "OVERLAY")
         left1:SetTexture(Z.assetPath .. "border-thick-sep")
         left1:SetTexCoord(0.421875, 0.53125, 0.609375, 0.53125, 0.421875, 0.03125, 0.609375, 0.03125)
         left1:SetSize(16 / 2, 12 / 2)
@@ -290,7 +330,7 @@ function B:RaidFrameManager()
         left1:SetTexelSnappingBias(0)
         E:SmoothColor(left1)
 
-        local right1 = sep:CreateTexture(nil, "OVERLAY", nil, 7)
+        local right1 = sep:CreateTexture(nil, "OVERLAY")
         right1:SetTexture(Z.assetPath .. "border-thick-sep")
         right1:SetTexCoord(0.21875, 0.53125, 0.40625, 0.53125, 0.21875, 0.03125, 0.40625, 0.03125)
         right1:SetSize(16 / 2, 12 / 2)
@@ -299,7 +339,7 @@ function B:RaidFrameManager()
         right1:SetTexelSnappingBias(0)
         E:SmoothColor(right1)
 
-        local mid1 = sep:CreateTexture(nil, "OVERLAY", nil, 7)
+        local mid1 = sep:CreateTexture(nil, "OVERLAY")
         mid1:SetTexture(Z.assetPath .. "border-thick-sep", "REPEAT", "REPEAT")
         mid1:SetTexCoord(0.015625, 1, 0.203125, 1, 0.015625, 0, 0.203125, 0)
         mid1:SetPoint("TOPLEFT", left1, "TOPRIGHT", 0, 0)
@@ -308,7 +348,7 @@ function B:RaidFrameManager()
         mid1:SetTexelSnappingBias(0)
         E:SmoothColor(mid1)
 
-        local left2 = sep:CreateTexture(nil, "BACKGROUND", nil, 7)
+        local left2 = sep:CreateTexture(nil, "BACKGROUND")
         left2:SetTexture(Z.assetPath .. "border-thick-sep")
         left2:SetTexCoord(0.421875, 0.53125, 0.609375, 0.53125, 0.421875, 0.03125, 0.609375, 0.03125)
         left2:SetSize(16 / 2, 12 / 2)
@@ -317,16 +357,16 @@ function B:RaidFrameManager()
         left2:SetTexelSnappingBias(0)
         E:SmoothColor(left2)
 
-        local right2 = sep:CreateTexture(nil, "BACKGROUND", nil, 7)
+        local right2 = sep:CreateTexture(nil, "BACKGROUND")
         right2:SetTexture(Z.assetPath .. "border-thick-sep")
         right2:SetTexCoord(0.21875, 0.53125, 0.40625, 0.53125, 0.21875, 0.03125, 0.40625, 0.03125)
         right2:SetSize(16 / 2, 12 / 2)
-        right2:SetPoint("BOTTOMRIGHT", frame.displayFrame.filterOptions, "BOTTOMRIGHT", 3, 6)
+        right2:SetPoint("BOTTOMRIGHT", frame.displayFrame.filterOptions, "BOTTOMRIGHT", -8, 6)
         right2:SetSnapToPixelGrid(false)
         right2:SetTexelSnappingBias(0)
         E:SmoothColor(right2)
 
-        local mid2 = sep:CreateTexture(nil, "BACKGROUND", nil, 7)
+        local mid2 = sep:CreateTexture(nil, "BACKGROUND")
         mid2:SetTexture(Z.assetPath .. "border-thick-sep", "REPEAT", "REPEAT")
         mid2:SetTexCoord(0.015625, 1, 0.203125, 1, 0.015625, 0, 0.203125, 0)
         mid2:SetPoint("TOPLEFT", left2, "TOPRIGHT", 0, 0)
@@ -336,6 +376,8 @@ function B:RaidFrameManager()
         E:SmoothColor(mid2)
 
         sep:Hide()
+
+        sep.sep2 = {left2, right2, mid2}
         frame.sep = sep
 
         frame.toggleButton:SetPoint("RIGHT", -7, 0)

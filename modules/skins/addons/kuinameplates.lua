@@ -22,7 +22,6 @@ local S = Z:GetModule("Skins")
 S:AddSkin("Kui_Nameplates", function()
     local addon = KuiNameplates
     local core = KuiNameplatesCore
-    local profile = core.profile
 
     local plugin = addon:NewPlugin("BitUI", 101, 5)
     if not plugin then return end
@@ -33,12 +32,12 @@ S:AddSkin("Kui_Nameplates", function()
         health:ClearAllPoints()
         health:SetAllPoints(bg)
 
-        local backgound = frame:CreateTexture(nil, "BACKGROUND")
-        backgound:SetTexture("Interface\\BUTTONS\\WHITE8X8")
-        backgound:SetVertexColor(0, 0, 0, 1)
-        backgound:SetPoint("TOPLEFT", bg, "TOPLEFT", -2, 2)
-        backgound:SetPoint("BOTTOMRIGHT", bg, "BOTTOMRIGHT", 2, -2)
-        frame.backgound = backgound
+        local background = frame:CreateTexture(nil, "BACKGROUND")
+        background:SetTexture("Interface\\BUTTONS\\WHITE8X8")
+        background:SetVertexColor(0, 0, 0, 1)
+        background:SetPoint("TOPLEFT", bg, "TOPLEFT", -2, 2)
+        background:SetPoint("BOTTOMRIGHT", bg, "BOTTOMRIGHT", 2, -2)
+        frame.background = background
 
         local glass = frame:CreateTexture(nil, "OVERLAY", nil, 7)
         glass:SetTexture(Z.assetPath .. "statusbar-glass")
@@ -50,7 +49,7 @@ S:AddSkin("Kui_Nameplates", function()
 
             local text = frame.NameText
             text:ClearAllPoints()
-            text:SetPoint("BOTTOM", bg, "TOP", 1, profile.name_vertical_offset)
+            text:SetPoint("BOTTOM", bg, "TOP", 1, core.profile.name_vertical_offset)
             text:SetJustifyH("CENTER")
             text:SetJustifyV("BOTTOM")
         end)
@@ -62,32 +61,31 @@ S:AddSkin("Kui_Nameplates", function()
             text:ClearAllPoints()
             text:SetJustifyH("CENTER")
             text:SetJustifyV("CENTER")
-            text:SetPoint("CENTER", frame.CastBar, "CENTER", 1, profile.castbar_name_vertical_offset)
+            text:SetPoint("CENTER", frame.CastBar, "CENTER", 1, core.profile.castbar_name_vertical_offset)
         end)
         frame:UpdateSpellNamePosition()
 
-        local target = frame.TargetName
-        if not target then
-            target = frame:CreateFontString(nil, "OVERLAY")
-            target:SetPoint("TOP", bg, "BOTTOM", 1, -profile.name_vertical_offset)
-            target:SetJustifyH("CENTER")
-            target:SetJustifyV("TOP")
-        end
+        local target = frame:CreateFontString(nil, "OVERLAY")
+        target:SetPoint("TOP", bg, "BOTTOM", 1, -core.profile.name_vertical_offset)
+        target:SetJustifyH("CENTER")
+        target:SetJustifyV("TOP")
+
+        frame.TargetName = target
     end
 
     function plugin:Show(frame)
         if frame.IN_NAMEONLY then
             frame.background:Hide()
             frame.TargetName:Hide()
-        else
-            local name, target = frame.NameText, frame.TargetName
-            local font, size = name:GetFont()
-
-            Z:HandleFont(target, font, size)
-
-            frame.state.target_guid = UnitGUID(frame.unit .. "target")
-            self:TargetChanged(frame)
         end
+
+        local name, target = frame.NameText, frame.TargetName
+        local font, size = name:GetFont()
+
+        Z:HandleFont(target, font, size)
+
+        frame.state.target_guid = UnitGUID(frame.unit .. "target")
+        self:TargetChanged(frame)
     end
 
     function plugin:Hide(frame)
@@ -95,15 +93,15 @@ S:AddSkin("Kui_Nameplates", function()
     end
 
     function plugin:GainedTarget(frame)
-        frame.backgound:SetVertexColor(1, 1, 1, 1)
+        frame.background:SetVertexColor(1, 1, 1, 1)
     end
 
     function plugin:LostTarget(frame)
-        frame.backgound:SetVertexColor(0, 0, 0, 1)
+        frame.background:SetVertexColor(0, 0, 0, 1)
     end
 
     function plugin:TargetChanged(frame)
-        if frame.state.personal or frame.IN_NAMEONLY then return end
+        if frame.state.personal then return end
 
         local guid = frame.state.target_guid
         local text = frame.TargetName
@@ -115,8 +113,8 @@ S:AddSkin("Kui_Nameplates", function()
                 text:SetText("YOU")
                 text:SetTextColor(1, 0, 0)
             else
-                unit:SetText(UnitName(unit))
-                unit:SetTextColor(E:GetUnitColor(unit, true, true))
+                text:SetText(UnitName(unit))
+                text:SetTextColor(E:GetUnitColor(unit, true, true))
             end
 
             text:Show()
@@ -131,15 +129,15 @@ S:AddSkin("Kui_Nameplates", function()
         local target = frame.TargetName
 
         background:ClearAllPoints()
-        background:SetPoint("TOPLEFT", profile.castbar_icon and icon or bg, "TOPLEFT", -2, 2)
+        background:SetPoint("TOPLEFT", core.profile.castbar_icon and icon or bg, "TOPLEFT", -2, 2)
         background:SetPoint("BOTTOMRIGHT", bar.bg, "BOTTOMRIGHT", 2, -2)
 
         target:ClearAllPoints()
-        target:SetPoint("TOP", bar.bg, "BOTTOM", 1, -profile.name_vertical_offset)
+        target:SetPoint("TOP", bar.bg, "BOTTOM", 1, -core.profile.name_vertical_offset)
 
         if bar.handled then return end
 
-        local glass = frame:CreateTexture(nil, "OVERLAY", nil, 7)
+        local glass = bar:CreateTexture(nil, "OVERLAY", nil, 7)
         glass:SetTexture(Z.assetPath .. "statusbar-glass")
         glass:SetAllPoints(bar)
 
@@ -149,16 +147,16 @@ S:AddSkin("Kui_Nameplates", function()
         bar.bg:ClearAllPoints()
         bar.bg:SetPoint("TOPLEFT", bg, "BOTTOMLEFT", 0, -2)
         bar.bg:SetPoint("TOPRIGHT", bg, "BOTTOMRIGHT", 0, -2)
-        bar.bg:SetHeight(profile.castbar_height)
+        bar.bg:SetHeight(core.profile.castbar_height)
 
-        if profile.castbar_icon then
+        if core.profile.castbar_icon then
             icon:ClearAllPoints()
             icon:SetAllPoints(icon.bg)
 
             icon.bg:ClearAllPoints()
-            icon.bg:SetPoint("TOPRIGHT", bg, "TOPRIGHT", -2, 0)
-            icon.bg:SetPoint("BOTTOMRIGHT", bg, "BOTTOMRIGHT", -2, 0)
-            icon.bg:SetWidth(profile.frame_height + profile.castbar_height + 2)
+            icon.bg:SetPoint("TOPRIGHT", bg, "TOPLEFT", -2, 0)
+            icon.bg:SetPoint("BOTTOMRIGHT", bar.bg, "BOTTOMLEFT", -2, 0)
+            icon.bg:SetWidth(core.profile.frame_height + core.profile.castbar_height + 2)
         end
 
         bar.handled = true
@@ -173,7 +171,7 @@ S:AddSkin("Kui_Nameplates", function()
         background:SetPoint("BOTTOMRIGHT", bg, "BOTTOMRIGHT", 2, -2)
 
         target:ClearAllPoints()
-        target:SetPoint("TOP", bg, "BOTTOM", 1, -profile.name_vertical_offset)
+        target:SetPoint("TOP", bg, "BOTTOM", 1, -core.profile.name_vertical_offset)
     end
 
     function plugin:Initialise()
@@ -220,22 +218,31 @@ S:AddSkin("Kui_Nameplates", function()
             icon:SetPoint("BOTTOMRIGHT", bg, "BOTTOMRIGHT", -2, 2)
 
             local cooldown = E.Cooldowns.Create(button)
+            cooldown:SetDrawSwipe(false)
             cooldown.config.text.v_alignment = "BOTTOM"
             cooldown:UpdateFont()
             button.cooldown = cooldown
 
-            hooksecurefunc(button, "UpdateCooldown", function(arg1)
+            hooksecurefunc(button, "UpdateCooldown", function(arg1, duration, expiration)
                 arg1.cd:Hide()
+
+                if duration and expiration then
+                    arg1.cooldown:SetCooldown(expiration - duration, duration)
+                    arg1.cooldown:Show()
+                else
+                    arg1.cooldown:SetCooldown(0, 0)
+                    arg1.cooldown:Hide()
+                end
             end)
 
-            -- TODO: point
             local count = button.count
             count:ClearAllPoints()
-            count:SetPoint("TOPLEFT", 1, -1)
-            count:SetPoint("TOPLEFT", 1, -1)
+            count:SetPoint("TOPLEFT", 2, 0)
+            count:SetPoint("TOPRIGHT", 2, 0)
             count:SetJustifyH("RIGHT")
             count:SetJustifyV("TOP")
 
+            Z:HandleFont(count, nil, nil, "OUTLINE", false)
             hooksecurefunc(core, "AurasButton_SetFont", function()
                 Z:HandleFont(count, nil, nil, "OUTLINE", false)
             end)

@@ -11,12 +11,12 @@ hooksecurefunc(E, "SetStatusBarSkin", function(_, object, flag)
         E:ForceHide(object.Tube[i])
     end
 
-    local border = object.border
-
-    if not border then
-        border = E:CreateBorder(object)
+    if not object.border then
+        local border = E:CreateBorder(object)
         border:SetTexture(Z.assetPath .. "border-thin")
         border:SetSize(16)
         border:SetOffset(-8)
+
+        object.border = border
     end
 end)

@@ -1,5 +1,5 @@
 local _, ns = ...
-local Z = ns.Z
+local Z, E = ns.Z, ns.E
 local UF = Z:GetModule("UnitFrames")
 
 --[[
