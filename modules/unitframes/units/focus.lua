@@ -9,6 +9,7 @@ local UF = Z:GetModule("UnitFrames")
 
 function UF:Focus()
     local frame = LSFocusFrame
+    if not frame then return end
 
     self:Castbar(frame)
 end

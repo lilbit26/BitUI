@@ -8,6 +8,8 @@ local B = Z:GetModule("Blizzard")
 
         CompactPartyFrame
         DebuffTypeColor
+        IsInGroup
+        IsInRaid
         UnitGroupRolesAssigned
 
         CompactPartyFrame_OnLoad
@@ -252,22 +254,26 @@ function B:RaidFrame()
 
     end)
 
-    for i = 1, NUM_RAID_GROUPS do
-        local frame = _G["CompactRaidGroup"..i]
+    if IsInGroup() then
+        if IsInRaid() then
+            for i = 1, NUM_RAID_GROUPS do
+                local frame = _G["CompactRaidGroup"..i]
 
-        if frame then
-            CompactRaidGroup_InitializeForGroup(frame, i)
-            CompactRaidGroup_UpdateBorder(frame)
-        end
-    end
+                if frame then
+                    CompactRaidGroup_InitializeForGroup(frame, i)
+                    CompactRaidGroup_UpdateBorder(frame)
+                end
+            end
+        else
+            local frame = CompactPartyFrame
+            if frame then
+                CompactPartyFrame_OnLoad(frame)
+                CompactRaidGroup_UpdateBorder(frame)
 
-    local frame = CompactPartyFrame
-    if frame then
-        CompactPartyFrame_OnLoad(frame)
-        CompactRaidGroup_UpdateBorder(frame)
-
-        if frame.title then
-            frame.title:SetText("")
+                if frame.title then
+                    frame.title:SetText("")
+                end
+            end
         end
     end
 end

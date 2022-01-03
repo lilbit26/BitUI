@@ -17,7 +17,7 @@ function T:Load()
     GameTooltip:HookScript("OnTooltipSetUnit", function(tooltip)
         if tooltip:IsForbidden() then return end
 
-        local unit = tooltip:GetUnit()
+        local _, unit = tooltip:GetUnit()
         if unit and UnitIsPlayer(unit) then
             local guildName, guildRankName = GetGuildInfo(unit)
             if guildName then

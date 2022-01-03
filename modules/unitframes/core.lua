@@ -6,4 +6,5 @@ function UF:Load()
     self:Player()
     self:Target()
     self:Focus()
+    self:Boss()
 end

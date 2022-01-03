@@ -9,6 +9,7 @@ local UF = Z:GetModule("UnitFrames")
 
 function UF:Target()
     local frame = LSTargetFrame
+    if not frame then return end
 
     self:Auras(frame)
     self:Castbar(frame)

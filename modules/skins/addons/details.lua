@@ -73,7 +73,7 @@ S:AddSkin("Details", function()
     local barNum = 7
 
     local instance = Details:GetInstance(1)
-    if instance.handled then return end
+    if not instance then return end
 
     local base = instance.baseframe
 
@@ -144,5 +144,8 @@ S:AddSkin("Details", function()
         end
     end)
 
-    instance.handled = true
+    instance:InstanceColor(0, 0, 0, 0, false, true)
+    instance:SetBarSettings(barHeight, "LS", true, nil, "Solid", false, {0, 0, 0, 0}, 1, nil, true, 0)
+    instance:SetBarTextSettings(12, nil, {1, 1, 1}, false, false, false, false, false, nil, 1, false)
+    instance:SetBarFollowPlayer(true)
 end)

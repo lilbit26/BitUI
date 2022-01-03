@@ -1,6 +1,6 @@
 ## Interface: 90105
 ## Author: lilbit
-## Version: 90105.01
+## Version: 90105.1.1
 ## Title: BitUI
 ## Notes: Personal UI based on ls_UI
 ## RequiredDeps: ls_UI
@@ -15,6 +15,7 @@ init.lua
 modules\auras\auras.lua
 modules\bars\core.lua
 modules\bars\actionbars.lua
+modules\bars\xpbar.lua
 modules\blizzard\core.lua
 modules\blizzard\chat.lua
 modules\blizzard\fonts.lua
@@ -23,10 +24,12 @@ modules\blizzard\raidframe.lua
 modules\minimap\minimap.lua
 modules\misc\core.lua
 modules\misc\cursor.lua
+modules\misc\focuser.lua
 modules\tooltips\tooltips.lua
 modules\unitframes\core.lua
 modules\unitframes\elements\auras.lua
 modules\unitframes\elements\castbar.lua
+modules\unitframes\units\boss.lua
 modules\unitframes\units\focus.lua
 modules\unitframes\units\player.lua
 modules\unitframes\units\target.lua

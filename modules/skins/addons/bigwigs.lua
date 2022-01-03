@@ -8,16 +8,38 @@ local S = Z:GetModule("Skins")
         BigWigsAPI
 ]]
 
+local height = 16
+
 S:AddSkin("BigWigs", function()
     BigWigsAPI:RegisterBarStyle(addonName, {
         apiVersion = 1,
         version = 1,
         barSpacing = 6,
-        barHeight = 20,
+        barHeight = height,
         fontSizeNormal = 12,
-        -- fontSizeEmphasized = 13,
         fontOutline = "NONE",
         ApplyStyle = function(bar)
+            local icon = bar.candyBarIconFrame
+
+            if bar.iconPosition == "LEFT" then
+                icon:SetTexCoord(8 / 64, 56 / 64, 9 / 64, 41 / 64)
+                icon:ClearAllPoints()
+                icon:SetPoint("TOPLEFT", bar, "TOPLEFT", 0, 0)
+                icon:SetSize(height * 1.5, height)
+            end
+
+            bar.candyBarDuration:ClearAllPoints()
+            bar.candyBarDuration:SetPoint("TOPLEFT", bar.candyBarBar, "TOPLEFT", 4, 0)
+            bar.candyBarDuration:SetPoint("BOTTOMRIGHT", bar.candyBarBar, "BOTTOMRIGHT", -4, 0)
+            bar.candyBarDuration:SetJustifyH("RIGHT")
+            bar.candyBarDuration:SetJustifyV("MIDDLE")
+
+            bar.candyBarLabel:ClearAllPoints()
+            bar.candyBarLabel:SetPoint("TOPLEFT", bar.candyBarBar, "TOPLEFT", 4, 0)
+            bar.candyBarLabel:SetPoint("BOTTOMRIGHT", bar.candyBarBar, "BOTTOMRIGHT", -4, 0)
+            bar.candyBarLabel:SetJustifyH("LEFT")
+            bar.candyBarLabel:SetJustifyV("MIDDLE")
+
             if bar.handled then return end
 
             local parent = CreateFrame("Frame", nil, bar)
@@ -35,10 +57,10 @@ S:AddSkin("BigWigs", function()
 
             local sep = parent:CreateTexture(nil, "OVERLAY")
             sep:SetTexture(Z.assetPath ..  "statusbar-sep", "REPEAT", "REPEAT")
-            sep:SetTexCoord(1 / 16, 13 / 16, 0 / 8, bar:GetHeight() / 4)
-            sep:SetSize(12 / 2, bar:GetHeight())
+            sep:SetTexCoord(1 / 16, 13 / 16, 0 / 8, height / 4)
+            sep:SetSize(12 / 2, height)
             sep:SetVertTile(true)
-            sep:SetPoint("LEFT", bar.candyBarIconFrame, "RIGHT", -2, 0)
+            sep:SetPoint("LEFT", icon, "RIGHT", -2, 0)
             sep:SetSnapToPixelGrid(false)
             sep:SetTexelSnappingBias(0)
 
@@ -48,11 +70,14 @@ S:AddSkin("BigWigs", function()
         GetStyleName = function() return "BitUI" end,
     })
 
-    -- disable nameplate bars
+    -- disable plugins
     Z:RegisterEvent("ADDON_LOADED", function(addon)
         if addon ~= "BigWigs_Plugins" then return end
 
-        local plugin = BigWigs:GetPlugin("Bars")
-        plugin.BigWigs_StartNameplateBar = function() end
+        local bars = BigWigs:GetPlugin("Bars")
+        bars.BigWigs_StartNameplateBar = function() end
+
+        local infoBox = BigWigs:GetPlugin("InfoBox")
+        infoBox.BigWigs_ShowInfoBox = function() end
     end)
 end)
