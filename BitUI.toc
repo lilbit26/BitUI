@@ -7,8 +7,6 @@
 
 core\core.lua
 core\utils.lua
-core\cooldown.lua
-core\statusbar.lua
 
 init.lua
 

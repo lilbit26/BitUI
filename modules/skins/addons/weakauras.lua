@@ -82,7 +82,7 @@ local function HandleIcon(region)
 
     region.border = border
 
-    local glow = region:CreateTexture(nil, "OVERLAY", nil, 7) -- TODO: sub layer
+    local glow = region:CreateTexture(nil, "OVERLAY", nil, 7)
     glow:SetAtlas("bags-newitem")
     glow:SetPoint("TOPLEFT", -8, 8)
     glow:SetPoint("BOTTOMRIGHT", 8, -8)
