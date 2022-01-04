@@ -14,10 +14,11 @@ local var = {
     resource = {
         name = "BitUIResourceFrame",
         width = 48 * 6 + 4 * 5 - 2,
-        height = 20
+        height = 22,
+        point = {"BOTTOM", UIParent, "BOTTOM", 0, 400}
     },
     classPower = {
-        height = 10
+        height = 8
     }
 }
 
@@ -25,26 +26,17 @@ local function HandleBar(bar)
     local resource = _G[var.resource.name]
     local top = bar.__owner.Insets.Top
 
-    local parent = CreateFrame("Frame", nil, bar)
-    parent:SetPoint("TOP", resource, "TOP", 0, var.classPower.height)
-    parent:SetSize(resource:GetWidth() - 32, var.classPower.height + 8)
-
-    local border = E:CreateBorder(parent, "OVERLAY", 6)
-    border:SetTexture(Z.assetPath .. "border-thin")
-
-    local glass = bar:CreateTexture(nil, "OVERLAY")
-    glass:SetTexture(Z.assetPath .. "statusbar-glass")
-    glass:SetAllPoints()
+    Z:HandleStatusBar(bar, "thin", "BOTTOM")
 
     local bg = bar:CreateTexture(nil, "BACKGROUND", nil, -7)
-    bg:SetAllPoints(parent)
+    bg:SetAllPoints()
     bg:SetTexture("Interface\\HELPFRAME\\DarkSandstone-Tile", "REPEAT", "REPEAT")
     bg:SetHorizTile(true)
     bg:SetVertTile(true)
 
     bar:ClearAllPoints()
-    bar:SetPoint("TOPLEFT", parent, "TOPLEFT")
-    bar:SetPoint("TOPRIGHT", parent, "TOPRIGHT")
+    bar:SetPoint("BOTTOMLEFT", resource, "TOPLEFT", 16, 2)
+    bar:SetPoint("BOTTOMRIGHT", resource, "TOPRIGHT", -16, 2)
     bar:SetHeight(var.classPower.height)
 
     hooksecurefunc(bar, "Hide", function()
@@ -66,11 +58,8 @@ function UF:Player()
     local addPower, classPower = frame.AdditionalPower, frame.ClassPower
     local top, bottom = frame.Insets.Top, frame.Insets.Bottom
 
-    power:SetFrameStrata("MEDIUM")
-    frame.TextParent:SetFrameStrata("MEDIUM")
-
     local resource = CreateFrame("Frame", var.resource.name, UIParent)
-    resource:SetPoint("BOTTOM", UIParent, "CENTER", 0, -300)
+    resource:SetPoint(unpack(var.resource.point))
     resource:SetSize(var.resource.width, var.resource.height)
     resource:SetFrameLevel(frame:GetFrameLevel() + 7)
 

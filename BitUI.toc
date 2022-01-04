@@ -36,3 +36,5 @@ modules\skins\addons\bigwigs.lua
 modules\skins\addons\details.lua
 modules\skins\addons\kuinameplates.lua
 modules\skins\addons\weakauras.lua
+
+dev.lua
