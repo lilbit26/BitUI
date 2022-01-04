@@ -7,6 +7,7 @@ local M = Z:GetModule("Misc")
         InCombatLockdown
         IsInGroup
         IsInRaid
+        SetOverrideBindingClick
 
         MEMBERS_PER_RAID_GROUP
         NUM_RAID_GROUPS
@@ -42,6 +43,8 @@ local function Handle(object)
 end
 
 local function HandleRaid()
+    if not IsInGroup() then return end
+
     if IsInRaid() then
         for i = 1, NUM_RAID_GROUPS do
             for j = 1, MEMBERS_PER_RAID_GROUP do
@@ -85,10 +88,7 @@ function M:Focuser()
         end
     end
 
-    if IsInGroup() then
-        HandleRaid()
-    end
-
+    HandleRaid()
     Z:RegisterEvent("GROUP_ROSTER_UPDATE", function()
         HandleRaid()
     end)

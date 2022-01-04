@@ -17,6 +17,7 @@
         "IsShiftKeyDown",
         "Lerp",
         "SetCVar",
+        "SetOverrideBindingClick",
         "UnitGroupRolesAssigned",
         "UnitGUID",
         "UnitIsPlayer",
