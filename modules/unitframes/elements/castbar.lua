@@ -9,6 +9,45 @@ local UF = Z:GetModule("UnitFrames")
         CreateFrame
 ]]
 
+local function UpdateIcon_Hook(self)
+    local holder = self.Holder
+
+    if self.Icon then
+        self.Icon:SetPoint("TOPLEFT", holder, "TOPLEFT", 0, 0)
+        self:SetPoint("TOPLEFT", 2 + self._config.height * 1.5, 0)
+        self:SetPoint("BOTTOMRIGHT", 0, 0)
+    else
+        self:SetAllPoints()
+    end
+end
+
+local function UpdateSize_Hook(self)
+    if self.handled then return end
+
+    if self._config.detached then
+        local parent = self.TexParent
+        parent.border:SetTexture(Z.assetPath .. "border-thick")
+
+        E:ForceHide(parent.Tube[5])
+    else
+        local holder = self.Holder
+        local frame = self.__owner
+        local parent = self.borderParent
+        local height = self._config.height
+
+        parent:SetPoint("BOTTOM", frame, "BOTTOM", 0, -(height + 2))
+        parent:SetSize(frame:GetWidth() - 16, height + 8)
+
+        holder:ClearAllPoints()
+        holder:SetPoint("BOTTOMLEFT", parent, "BOTTOMLEFT", 0, 0)
+        holder:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", 0, 0)
+
+        holder:SetHeight(height)
+    end
+
+    self.handled = true
+end
+
 function UF:Castbar(frame)
     local castbar = frame.Castbar
     local holder = castbar.Holder
@@ -16,16 +55,8 @@ function UF:Castbar(frame)
     castbar.TexParent:ClearAllPoints()
     castbar.TexParent:SetAllPoints(holder)
 
-    hooksecurefunc(castbar, "UpdateIcon", function()
-        if castbar.Icon then
-            castbar.Icon:SetPoint("TOPLEFT", holder, "TOPLEFT", 0, 0)
-            castbar:SetPoint("TOPLEFT", 2 + castbar._config.height * 1.5, 0)
-            castbar:SetPoint("BOTTOMRIGHT", 0, 0)
-        else
-            castbar:SetAllPoints()
-        end
-    end)
-    castbar:UpdateIcon()
+    UpdateIcon_Hook(castbar)
+    hooksecurefunc(castbar, "UpdateIcon", UpdateIcon_Hook)
 
     if castbar._config.detached then
         local time, text = castbar.Time, castbar.Text
@@ -33,21 +64,9 @@ function UF:Castbar(frame)
         time:SetPoint("RIGHT", castbar, "RIGHT", -4, 0)
         text:SetPoint("LEFT", castbar, "LEFT", 4, 0)
 
-        hooksecurefunc(castbar, "UpdateSize", function()
-            if castbar.handled then return end
-
-            local parent = castbar.TexParent
-            parent.border:SetTexture(Z.assetPath .. "border-thick")
-
-            local inlay = E:CreateBorder(castbar, "OVERLAY", 6)
-            inlay:SetTexture(Z.assetPath .. "unit-frame-inlay-right")
-            inlay:SetAlpha(0.8)
-
-            E:ForceHide(parent.Tube[5])
-
-            castbar.handled = true
-        end)
-        castbar:UpdateSize()
+        local inlay = E:CreateBorder(self, "OVERLAY", 6)
+        inlay:SetTexture(Z.assetPath .. "unit-frame-inlay-right")
+        inlay:SetAlpha(0.8)
     else
         frame:SetFrameStrata("MEDIUM")
         castbar:SetFrameStrata("LOW")
@@ -60,25 +79,12 @@ function UF:Castbar(frame)
         castbar.Time:SetJustifyV("BOTTOM")
 
         local parent = CreateFrame("Frame", nil, castbar)
+        castbar.borderParent = parent
 
         local border = E:CreateBorder(parent, "OVERLAY", 6)
         border:SetTexture(Z.assetPath .. "border-thin")
 
         castbar.TexParent.border:Hide()
-
-        hooksecurefunc(castbar, "UpdateSize", function()
-            local height = castbar._config.height
-
-            parent:SetPoint("BOTTOM", frame, "BOTTOM", 0, -(height + 2))
-            parent:SetSize(frame:GetWidth() - 16, height + 8)
-
-            holder:ClearAllPoints()
-            holder:SetPoint("BOTTOMLEFT", parent, "BOTTOMLEFT", 0, 0)
-            holder:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", 0, 0)
-
-            holder:SetHeight(height)
-        end)
-        castbar:UpdateSize()
 
         local name = frame.Name
 
@@ -101,4 +107,7 @@ function UF:Castbar(frame)
             end)
         end
     end
+
+    UpdateSize_Hook(castbar)
+    hooksecurefunc(castbar, "UpdateSize", UpdateSize_Hook)
 end

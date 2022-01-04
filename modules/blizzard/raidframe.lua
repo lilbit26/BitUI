@@ -26,99 +26,106 @@ local roleIcons = {
     ["DAMAGER"] = {35 / 256, 66 / 256, 2 / 256, 33 / 256}
 }
 
+local function CompactPartyFrame_Generate_Hook()
+    local frame = CompactPartyFrame
+
+    if frame and frame.title then
+        frame.title:SetText("")
+    end
+end
+
+local function CompactRaidGroup_InitializeForGroup_Hook(frame)
+    if frame and frame.title then
+        E:ForceHide(frame.title)
+    end
+end
+
+local function CompactRaidGroup_UpdateBorder_Hook(frame)
+    local borderFrame = frame.borderFrame
+    if borderFrame.handled then return end
+
+    E:ForceHide(_G[borderFrame:GetName() .. "BorderTopLeft"])
+    E:ForceHide(_G[borderFrame:GetName() .. "BorderTopRight"])
+    E:ForceHide(_G[borderFrame:GetName() .. "BorderBottomLeft"])
+    E:ForceHide(_G[borderFrame:GetName() .. "BorderBottomRight"])
+    E:ForceHide(_G[borderFrame:GetName() .. "BorderTop"])
+    E:ForceHide(_G[borderFrame:GetName() .. "BorderBottom"])
+    E:ForceHide(_G[borderFrame:GetName() .. "BorderLeft"])
+    E:ForceHide(_G[borderFrame:GetName() .. "BorderRight"])
+
+    local border = E:CreateBorder(frame.borderFrame)
+    border:SetTexture(Z.assetPath .. "border-thick")
+    border:SetSize(16)
+    border:SetOffset(-8)
+
+    for i = 1, MEMBERS_PER_RAID_GROUP do
+        local unitFrame = _G[frame:GetName() .. "Member" .. i]
+
+        -- inlay
+        local inlay = E:CreateBorder(unitFrame, "OVERLAY", -7)
+        inlay:SetOffset(-9)
+        inlay:SetTexture(Z.assetPath .. "unit-frame-inlay-none")
+        inlay:SetAlpha(0.8)
+
+        if i == 1 then
+            inlay.TOPLEFT:SetTexture(Z.assetPath .. "unit-frame-inlay-both")
+            inlay.TOPRIGHT:SetTexture(Z.assetPath .. "unit-frame-inlay-both")
+            -- inlay.TOPLEFT:SetAlpha(1)
+            -- inlay.TOPRIGHT:SetAlpha(1)
+        elseif i == MEMBERS_PER_RAID_GROUP then
+            inlay.BOTTOMLEFT:SetTexture(Z.assetPath .. "unit-frame-inlay-both")
+            inlay.BOTTOMRIGHT:SetTexture(Z.assetPath .. "unit-frame-inlay-both")
+        end
+
+        -- sep
+        if i ~= MEMBERS_PER_RAID_GROUP then
+            local left = borderFrame:CreateTexture(nil, "OVERLAY")
+            left:SetTexture(Z.assetPath .. "border-thick-sep")
+            left:SetTexCoord(0.421875, 0.53125, 0.609375, 0.53125, 0.421875, 0.03125, 0.609375, 0.03125)
+            left:SetSize(16 / 2, 12 / 2)
+            left:SetPoint("BOTTOMLEFT", unitFrame, "BOTTOMLEFT", 1, -3)
+            left:SetSnapToPixelGrid(false)
+            left:SetTexelSnappingBias(0)
+            E:SmoothColor(left)
+
+            local right = frame.borderFrame:CreateTexture(nil, "OVERLAY")
+            right:SetTexture(Z.assetPath .. "border-thick-sep")
+            right:SetTexCoord(0.21875, 0.53125, 0.40625, 0.53125, 0.21875, 0.03125, 0.40625, 0.03125)
+            right:SetSize(16 / 2, 12 / 2)
+            right:SetPoint("BOTTOMRIGHT", unitFrame, "BOTTOMRIGHT", -1, -3)
+            right:SetSnapToPixelGrid(false)
+            right:SetTexelSnappingBias(0)
+            E:SmoothColor(right)
+
+            local mid = frame.borderFrame:CreateTexture(nil, "OVERLAY")
+            mid:SetTexture(Z.assetPath .. "border-thick-sep", "REPEAT", "REPEAT")
+            mid:SetTexCoord(0.015625, 1, 0.203125, 1, 0.015625, 0, 0.203125, 0)
+            mid:SetPoint("TOPLEFT", left, "TOPRIGHT", 0, 0)
+            mid:SetPoint("BOTTOMRIGHT", right, "BOTTOMLEFT", 0, 0)
+            mid:SetSnapToPixelGrid(false)
+            mid:SetTexelSnappingBias(0)
+            E:SmoothColor(mid)
+        end
+    end
+
+    local bg = borderFrame:CreateTexture(nil, "BACKGROUND", nil, -7)
+    bg:SetTexture("Interface\\HELPFRAME\\DarkSandstone-Tile", "REPEAT", "REPEAT")
+    bg:SetAllPoints()
+    bg:SetHorizTile(true)
+    bg:SetVertTile(true)
+
+    borderFrame:ClearAllPoints()
+    borderFrame:SetPoint("TOPLEFT", _G[frame:GetName() .. "Member1"], 1, -1)
+    borderFrame:SetPoint("BOTTOMRIGHT", _G[frame:GetName() .. "Member" .. MEMBERS_PER_RAID_GROUP], -1, 1)
+
+    borderFrame.handled = true
+end
+
 function B:RaidFrame()
-    hooksecurefunc("CompactPartyFrame_Generate", function ()
-        if CompactPartyFrame and CompactPartyFrame.title then
-            CompactPartyFrame.title:SetText("")
-        end
-    end)
+    hooksecurefunc("CompactPartyFrame_Generate", CompactPartyFrame_Generate_Hook)
 
-    hooksecurefunc("CompactRaidGroup_InitializeForGroup", function(frame)
-        if frame and frame.title then
-            E:ForceHide(frame.title)
-        end
-    end)
-
-    hooksecurefunc("CompactRaidGroup_UpdateBorder", function(frame)
-        local borderFrame = frame.borderFrame
-        if borderFrame.handled then return end
-
-        E:ForceHide(_G[borderFrame:GetName() .. "BorderTopLeft"])
-        E:ForceHide(_G[borderFrame:GetName() .. "BorderTopRight"])
-        E:ForceHide(_G[borderFrame:GetName() .. "BorderBottomLeft"])
-        E:ForceHide(_G[borderFrame:GetName() .. "BorderBottomRight"])
-        E:ForceHide(_G[borderFrame:GetName() .. "BorderTop"])
-        E:ForceHide(_G[borderFrame:GetName() .. "BorderBottom"])
-        E:ForceHide(_G[borderFrame:GetName() .. "BorderLeft"])
-        E:ForceHide(_G[borderFrame:GetName() .. "BorderRight"])
-
-        local border = E:CreateBorder(frame.borderFrame)
-        border:SetTexture(Z.assetPath .. "border-thick")
-        border:SetSize(16)
-        border:SetOffset(-8)
-
-        for i = 1, MEMBERS_PER_RAID_GROUP do
-            local unitFrame = _G[frame:GetName() .. "Member" .. i]
-
-            -- inlay
-            local inlay = E:CreateBorder(unitFrame, "OVERLAY", -7)
-            inlay:SetOffset(-9)
-            inlay:SetTexture(Z.assetPath .. "unit-frame-inlay-none")
-            inlay:SetAlpha(0.8)
-
-            if i == 1 then
-                inlay.TOPLEFT:SetTexture(Z.assetPath .. "unit-frame-inlay-both")
-                inlay.TOPRIGHT:SetTexture(Z.assetPath .. "unit-frame-inlay-both")
-                -- inlay.TOPLEFT:SetAlpha(1)
-                -- inlay.TOPRIGHT:SetAlpha(1)
-            elseif i == MEMBERS_PER_RAID_GROUP then
-                inlay.BOTTOMLEFT:SetTexture(Z.assetPath .. "unit-frame-inlay-both")
-                inlay.BOTTOMRIGHT:SetTexture(Z.assetPath .. "unit-frame-inlay-both")
-            end
-
-            -- sep
-            if i ~= MEMBERS_PER_RAID_GROUP then
-                local left = borderFrame:CreateTexture(nil, "OVERLAY")
-                left:SetTexture(Z.assetPath .. "border-thick-sep")
-                left:SetTexCoord(0.421875, 0.53125, 0.609375, 0.53125, 0.421875, 0.03125, 0.609375, 0.03125)
-                left:SetSize(16 / 2, 12 / 2)
-                left:SetPoint("BOTTOMLEFT", unitFrame, "BOTTOMLEFT", 1, -3)
-                left:SetSnapToPixelGrid(false)
-                left:SetTexelSnappingBias(0)
-                E:SmoothColor(left)
-
-                local right = frame.borderFrame:CreateTexture(nil, "OVERLAY")
-                right:SetTexture(Z.assetPath .. "border-thick-sep")
-                right:SetTexCoord(0.21875, 0.53125, 0.40625, 0.53125, 0.21875, 0.03125, 0.40625, 0.03125)
-                right:SetSize(16 / 2, 12 / 2)
-                right:SetPoint("BOTTOMRIGHT", unitFrame, "BOTTOMRIGHT", -1, -3)
-                right:SetSnapToPixelGrid(false)
-                right:SetTexelSnappingBias(0)
-                E:SmoothColor(right)
-
-                local mid = frame.borderFrame:CreateTexture(nil, "OVERLAY")
-                mid:SetTexture(Z.assetPath .. "border-thick-sep", "REPEAT", "REPEAT")
-                mid:SetTexCoord(0.015625, 1, 0.203125, 1, 0.015625, 0, 0.203125, 0)
-                mid:SetPoint("TOPLEFT", left, "TOPRIGHT", 0, 0)
-                mid:SetPoint("BOTTOMRIGHT", right, "BOTTOMLEFT", 0, 0)
-                mid:SetSnapToPixelGrid(false)
-                mid:SetTexelSnappingBias(0)
-                E:SmoothColor(mid)
-            end
-        end
-
-        local bg = borderFrame:CreateTexture(nil, "BACKGROUND", nil, -7)
-        bg:SetTexture("Interface\\HELPFRAME\\DarkSandstone-Tile", "REPEAT", "REPEAT")
-        bg:SetAllPoints()
-        bg:SetHorizTile(true)
-        bg:SetVertTile(true)
-
-        borderFrame:ClearAllPoints()
-        borderFrame:SetPoint("TOPLEFT", _G[frame:GetName() .. "Member1"], 1, -1)
-        borderFrame:SetPoint("BOTTOMRIGHT", _G[frame:GetName() .. "Member" .. MEMBERS_PER_RAID_GROUP], -1, 1)
-
-        borderFrame.handled = true
-    end)
+    hooksecurefunc("CompactRaidGroup_InitializeForGroup", CompactRaidGroup_InitializeForGroup_Hook)
+    hooksecurefunc("CompactRaidGroup_UpdateBorder", CompactRaidGroup_UpdateBorder_Hook)
 
     hooksecurefunc("CompactUnitFrame_UpdateRoleIcon", function(frame)
         if frame.roleIcon then
@@ -250,29 +257,23 @@ function B:RaidFrame()
         frame.aggroHighlight:SetTexCoord(0.00781250, 0.55468750, 0.28906250, 0.55468750)
     end)
 
-    hooksecurefunc("CompactRaidFrameContainer_ApplyToFrames", function(_, _, func, ...)
-
-    end)
-
     if IsInGroup() then
         if IsInRaid() then
             for i = 1, NUM_RAID_GROUPS do
                 local frame = _G["CompactRaidGroup"..i]
 
                 if frame then
-                    CompactRaidGroup_InitializeForGroup(frame, i)
-                    CompactRaidGroup_UpdateBorder(frame)
+                    CompactRaidGroup_InitializeForGroup_Hook(frame)
+                    CompactRaidGroup_UpdateBorder_Hook(frame)
                 end
             end
         else
             local frame = CompactPartyFrame
-            if frame then
-                CompactPartyFrame_OnLoad(frame)
-                CompactRaidGroup_UpdateBorder(frame)
 
-                if frame.title then
-                    frame.title:SetText("")
-                end
+            if frame then
+                CompactPartyFrame_OnLoad(frame) -- TODO: needed?
+                CompactPartyFrame_Generate_Hook()
+                CompactRaidGroup_UpdateBorder_Hook(frame)
             end
         end
     end

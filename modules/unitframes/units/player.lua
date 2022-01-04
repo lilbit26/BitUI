@@ -10,6 +10,54 @@ local UF = Z:GetModule("UnitFrames")
         LSPlayerFrame
 ]]
 
+local var = {
+    resource = {
+        name = "BitUIResourceFrame",
+        width = 48 * 6 + 4 * 5 - 2,
+        height = 20
+    },
+    classPower = {
+        height = 10
+    }
+}
+
+local function HandleBar(bar)
+    local resource = _G[var.resource.name]
+    local top = bar.__owner.Insets.Top
+
+    local parent = CreateFrame("Frame", nil, bar)
+    parent:SetPoint("TOP", resource, "TOP", 0, var.classPower.height)
+    parent:SetSize(resource:GetWidth() - 32, var.classPower.height + 8)
+
+    local border = E:CreateBorder(parent, "OVERLAY", 6)
+    border:SetTexture(Z.assetPath .. "border-thin")
+
+    local glass = bar:CreateTexture(nil, "OVERLAY")
+    glass:SetTexture(Z.assetPath .. "statusbar-glass")
+    glass:SetAllPoints()
+
+    local bg = bar:CreateTexture(nil, "BACKGROUND", nil, -7)
+    bg:SetAllPoints(parent)
+    bg:SetTexture("Interface\\HELPFRAME\\DarkSandstone-Tile", "REPEAT", "REPEAT")
+    bg:SetHorizTile(true)
+    bg:SetVertTile(true)
+
+    bar:ClearAllPoints()
+    bar:SetPoint("TOPLEFT", parent, "TOPLEFT")
+    bar:SetPoint("TOPRIGHT", parent, "TOPRIGHT")
+    bar:SetHeight(var.classPower.height)
+
+    hooksecurefunc(bar, "Hide", function()
+        top:Collapse()
+    end)
+    hooksecurefunc(bar, "Show", function()
+        top:Collapse()
+    end)
+    hooksecurefunc(bar, "SetShown", function()
+        top:Collapse()
+    end)
+end
+
 function UF:Player()
     local frame = LSPlayerFrame
     if not frame then return end
@@ -18,17 +66,12 @@ function UF:Player()
     local addPower, classPower = frame.AdditionalPower, frame.ClassPower
     local top, bottom = frame.Insets.Top, frame.Insets.Bottom
 
-    local size = 48
-    local num = 6
-    local height1 = 20
-    local height2 = 10
-
     power:SetFrameStrata("MEDIUM")
     frame.TextParent:SetFrameStrata("MEDIUM")
 
-    local resource = CreateFrame("Frame", "BitUIResourceFrame", UIParent)
+    local resource = CreateFrame("Frame", var.resource.name, UIParent)
     resource:SetPoint("BOTTOM", UIParent, "CENTER", 0, -300)
-    resource:SetSize(size * num + 4 * (num - 1) - 2, height1)
+    resource:SetSize(var.resource.width, var.resource.height)
     resource:SetFrameLevel(frame:GetFrameLevel() + 7)
 
     local border = E:CreateBorder(resource, "OVERLAY", 6)
@@ -46,40 +89,6 @@ function UF:Player()
 
     power:ClearAllPoints()
     power:SetAllPoints(resource)
-
-    local function HandleBar(bar)
-        local parent = CreateFrame("Frame", nil, bar)
-        parent:SetPoint("TOP", resource, "TOP", 0, height2)
-        parent:SetSize(resource:GetWidth() - 32, height2 + 8)
-
-        local cpBorder = E:CreateBorder(parent, "OVERLAY", 6)
-        cpBorder:SetTexture(Z.assetPath .. "border-thin")
-
-        local glass = bar:CreateTexture(nil, "OVERLAY")
-        glass:SetTexture("Interface\\AddOns\\ls_UI\\assets\\statusbar-glass")
-        glass:SetAllPoints()
-
-        local cpBg = bar:CreateTexture(nil, "BACKGROUND", nil, -7)
-        cpBg:SetAllPoints(parent)
-        cpBg:SetTexture("Interface\\HELPFRAME\\DarkSandstone-Tile", "REPEAT", "REPEAT")
-        cpBg:SetHorizTile(true)
-        cpBg:SetVertTile(true)
-
-        bar:ClearAllPoints()
-        bar:SetPoint("TOPLEFT", parent, "TOPLEFT")
-        bar:SetPoint("TOPRIGHT", parent, "TOPRIGHT")
-        bar:SetHeight(height2)
-
-        hooksecurefunc(bar, "Hide", function()
-            top:Collapse()
-        end)
-        hooksecurefunc(bar, "Show", function()
-            top:Collapse()
-        end)
-        hooksecurefunc(bar, "SetShown", function()
-            top:Collapse()
-        end)
-    end
 
     hooksecurefunc(addPower, "PostUpdate", function(_, cur, max)
         if cur == max then

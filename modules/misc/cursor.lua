@@ -15,18 +15,22 @@ local M = Z:GetModule("Misc")
 
 -- from FreeUI by Solor
 
+local var = {
+    pollingRate = 0.01,
+    numLines = 45
+}
+
 local parent = CreateFrame("Frame", nil, UIParent)
 parent:SetFrameStrata("TOOLTIP")
 parent:SetFrameLevel(30)
 
-local pollingRate, numLines = 0.01, 45
 local lines = {}
-for i = 1, numLines do
+for i = 1, var.numLines do
     local line = parent:CreateLine()
-    line:SetThickness(Lerp(5, 1, (i - 1) / numLines))
+    line:SetThickness(Lerp(5, 1, (i - 1) / var.numLines))
     line:SetColorTexture(1, 1, 1)
 
-    local startA, endA = Lerp(1, 0, (i - 1) / numLines), Lerp(1, 0, i / numLines)
+    local startA, endA = Lerp(1, 0, (i - 1) / var.numLines), Lerp(1, 0, i / var.numLines)
     line:SetGradientAlpha('HORIZONTAL', 1, 1, 1, startA, 1, 1, 1, endA)
 
     lines[i] = {line = line, x = 0, y = 0}
@@ -45,7 +49,7 @@ end
 local function UpdateTrail()
     local startX, startY = GetScaledCursorPosition()
 
-    for i = 1, numLines do
+    for i = 1, var.numLines do
         local info = lines[i]
 
         local endX, endY = info.x, info.y
@@ -63,7 +67,7 @@ local function UpdateTrail()
 end
 
 local function AddTrail()
-    C_Timer.NewTicker(pollingRate, UpdateTrail)
+    C_Timer.NewTicker(var.pollingRate, UpdateTrail)
 end
 
 local x = 0

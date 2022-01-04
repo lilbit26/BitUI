@@ -24,8 +24,10 @@ local M = Z:GetModule("Misc")
         LSBoss5Frame
 ]]
 
-local modifier = "shift"
-local button = "1"
+local var = {
+    modifier = "shift",
+    button = "1"
+}
 
 local pending = {}
 
@@ -33,7 +35,7 @@ local function Handle(object)
     if object.handled then return end
 
     if not InCombatLockdown() then
-        object:SetAttribute(modifier .. "-type" .. button, "focus")
+        object:SetAttribute(var.modifier .. "-type" .. var.button, "focus")
 
         object.handled = true
         pending[object] = nil
@@ -70,7 +72,7 @@ function M:Focuser()
     local focuser = CreateFrame("CheckButton", "Focuser", UIParent, "SecureActionButtonTemplate")
     focuser:SetAttribute("type1", "macro")
     focuser:SetAttribute("macrotext", "/focus mouseover")
-    SetOverrideBindingClick(_G["Focuser"], true, modifier .. "-BUTTON" .. button, "Focuser")
+    SetOverrideBindingClick(_G["Focuser"], true, var.modifier .. "-BUTTON" .. var.button, "Focuser")
 
     for _, frame in pairs({
         LSPlayerFrame,

@@ -61,6 +61,7 @@
         "LSBuffHeader",
         "LSDebuffHeader",
         "LSFocusFrame",
+        "LSOTFrameHolder",
         "LSPetFrame",
         "LSPlayerFrame",
         "LSTargetFrame",

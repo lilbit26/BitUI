@@ -9,23 +9,33 @@ local A = Z:AddModule("Auras")
         LSTotemHeader
 ]]
 
-function A:Load()
-    local function HandleButton(button, header)
-        if button.handled then return end
+local var = {
+    countX = 1,
+    countY = -1,
 
-        button.TextParent:ClearAllPoints()
-        button.TextParent:SetPoint("TOPLEFT", 1, -1)
-        button.TextParent:SetPoint("BOTTOMRIGHT", 1, -1)
+    debuff = {
+        cdX = 0,
+        cdY = -1
+    }
+}
 
-        if header == LSDebuffHeader then
-            button.Cooldown:ClearAllPoints()
-            button.Cooldown:SetPoint("TOPLEFT", 0, -1)
-            button.Cooldown:SetPoint("BOTTOMRIGHT", 0, -1)
-        end
+local function HandleButton(button, header)
+    if button.handled then return end
 
-        button.handled = true
+    if header == LSDebuffHeader then
+        button.Cooldown:ClearAllPoints()
+        button.Cooldown:SetPoint("TOPLEFT", var.debuff.cdX, var.debuff.cdY)
+        button.Cooldown:SetPoint("BOTTOMRIGHT", var.debuff.cdX, var.debuff.cdY)
     end
 
+    button.TextParent:ClearAllPoints()
+    button.TextParent:SetPoint("TOPLEFT", 0, 0)
+    button.TextParent:SetPoint("BOTTOMRIGHT", var.countX, var.countX)
+
+    button.handled = true
+end
+
+function A:Load()
     for _, header in pairs({LSBuffHeader, LSDebuffHeader}) do
         local buttons = header._buttons or {header:GetChildren()}
         for _, button in next, buttons do

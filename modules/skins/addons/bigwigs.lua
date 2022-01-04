@@ -8,15 +8,23 @@ local S = Z:GetModule("Skins")
         BigWigsAPI
 ]]
 
-local height = 16
+local var = {
+    bar = {
+        height = 16,
+        spacing = 6
+    },
+    text = {
+        size = 12
+    }
+}
 
 S:AddSkin("BigWigs", function()
     BigWigsAPI:RegisterBarStyle(addonName, {
         apiVersion = 1,
         version = 1,
-        barSpacing = 6,
-        barHeight = height,
-        fontSizeNormal = 12,
+        barSpacing = var.bar.spacing,
+        barHeight = var.bar.height,
+        fontSizeNormal = var.text.size,
         fontOutline = "NONE",
         ApplyStyle = function(bar)
             local icon = bar.candyBarIconFrame
@@ -25,7 +33,7 @@ S:AddSkin("BigWigs", function()
                 icon:SetTexCoord(8 / 64, 56 / 64, 9 / 64, 41 / 64)
                 icon:ClearAllPoints()
                 icon:SetPoint("TOPLEFT", bar, "TOPLEFT", 0, 0)
-                icon:SetSize(height * 1.5, height)
+                icon:SetSize(var.bar.height * 1.5, var.bar.height)
             end
 
             bar.candyBarDuration:ClearAllPoints()
@@ -57,8 +65,8 @@ S:AddSkin("BigWigs", function()
 
             local sep = parent:CreateTexture(nil, "OVERLAY")
             sep:SetTexture(Z.assetPath ..  "statusbar-sep", "REPEAT", "REPEAT")
-            sep:SetTexCoord(1 / 16, 13 / 16, 0 / 8, height / 4)
-            sep:SetSize(12 / 2, height)
+            sep:SetTexCoord(1 / 16, 13 / 16, 0 / 8, var.bar.height / 4)
+            sep:SetSize(12 / 2, var.bar.height)
             sep:SetVertTile(true)
             sep:SetPoint("LEFT", icon, "RIGHT", -2, 0)
             sep:SetSnapToPixelGrid(false)
@@ -66,7 +74,6 @@ S:AddSkin("BigWigs", function()
 
             bar.handled = true
         end,
-        -- BarStopped = function(bar) end,
         GetStyleName = function() return "BitUI" end,
     })
 
