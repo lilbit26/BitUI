@@ -14,10 +14,22 @@ local T = Z:AddModule("Tooltips")
 ]]
 
 function T:Load()
+    GameTooltip.NineSlice:SetBorderColor(0, 0, 0, 0)
+
+    local border = E:CreateBorder(GameTooltip.NineSlice)
+    border:SetTexture(Z.assetPath .. "border-thin")
+    border:SetSize(16)
+    border:SetOffset(-13)
+
+    hooksecurefunc("GameTooltip_SetDefaultAnchor", function(tooltip)
+        tooltip:ClearAllPoints()
+        tooltip:SetPoint("BOTTOMRIGHT", _G["LSTooltipAnchor"], "BOTTOMRIGHT", -5, -5)
+    end)
+
     GameTooltip:HookScript("OnTooltipSetUnit", function(tooltip)
         if tooltip:IsForbidden() then return end
 
-        local unit = tooltip:GetUnit()
+        local _, unit = tooltip:GetUnit()
         if unit and UnitIsPlayer(unit) then
             local guildName, guildRankName = GetGuildInfo(unit)
             if guildName then

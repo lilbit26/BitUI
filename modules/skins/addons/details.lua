@@ -12,6 +12,25 @@ local S = Z:GetModule("Skins")
         Details
 ]]
 
+local var = {
+    window = {
+        width = 300,
+        position = {
+            point = "BOTTOMRIGHT",
+            rPoint = "BOTTOMRIGHT",
+            x = -20,
+            y = 20
+        }
+    },
+    statusbar = {
+        height = 22,
+        count = 7,
+        text = {
+            size = 12
+        }
+    }
+}
+
 local function HandleStatusBar(bar)
     if bar.handled then return end
 
@@ -66,20 +85,20 @@ local function HandleStatusBar(bar)
 end
 
 S:AddSkin("Details", function()
-    local x = -20
-    local y = 20
-    local winWidth = 300
-    local barHeight = 22
-    local barNum = 7
-
     local instance = Details:GetInstance(1)
-    if instance.handled then return end
+    if not instance then return end
 
     local base = instance.baseframe
 
     base:ClearAllPoints()
-    base:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMRIGHT", x, y)
-    instance:SetSize(winWidth, barHeight * barNum)
+    base:SetPoint(
+        var.window.position.point,
+        UIParent,
+        var.window.position.rPoint,
+        var.window.position.x,
+        var.window.position.y
+    )
+    instance:SetSize(var.window.width, var.statusbar.height * var.statusbar.count)
     instance:SaveMainWindowPosition()
     instance:RestoreMainWindowPosition()
     instance:LockInstance(true)
@@ -99,11 +118,11 @@ S:AddSkin("Details", function()
     bg:SetHorizTile(true)
     bg:SetVertTile(true)
 
-    for i = 1, barNum do
+    for i = 1, var.statusbar.count do
         local bar = _G["DetailsBarra_Statusbar_" .. 1 .. "_" .. i]
         HandleStatusBar(bar)
 
-        if i == barNum then
+        if i == var.statusbar.count then
             for _, tex in pairs(bar.sep) do
                 tex:Hide()
             end
@@ -126,7 +145,7 @@ S:AddSkin("Details", function()
         parent:SetFrameStrata("TOOLTIP")
         parent:SetFrameLevel(20)
 
-        local bar = _G["DetailsBarra_Statusbar_1_" .. barNum]
+        local bar = _G["DetailsBarra_Statusbar_1_" .. var.statusbar.count]
         for _, tex in pairs(bar.sep) do
             tex:Show()
         end
@@ -138,11 +157,14 @@ S:AddSkin("Details", function()
         parent:SetFrameStrata("HIGH")
         parent:SetFrameLevel(0)
 
-        local bar = _G["DetailsBarra_Statusbar_1_" .. barNum]
+        local bar = _G["DetailsBarra_Statusbar_1_" .. var.statusbar.count]
         for _, tex in pairs(bar.sep) do
             tex:Hide()
         end
     end)
 
-    instance.handled = true
+    instance:InstanceColor(0, 0, 0, 0, false, true)
+    instance:SetBarSettings(var.statusbar.height, "LS", true, nil, "Solid", false, {0, 0, 0, 0}, 1, nil, true, 0)
+    instance:SetBarTextSettings(var.statusbar.text.size, nil, {1, 1, 1}, false, false, false, false, false, nil, 1, false)
+    instance:SetBarFollowPlayer(true)
 end)

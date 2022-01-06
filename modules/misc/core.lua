@@ -16,6 +16,8 @@ function M:Delete()
 end
 
 function M:Load()
-    self:Cursor()
     self:Delete()
+
+    self:Cursor()
+    self:Focuser()
 end

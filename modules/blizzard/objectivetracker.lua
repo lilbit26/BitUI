@@ -1,23 +1,32 @@
 local _, ns = ...
-local Z = ns.Z
+local Z, E = ns.Z, ns.E
 local B = Z:GetModule("Blizzard")
 
 --[[
     Blizzard:
         ObjectiveTrackerFrame
-        UIParent
+
+    ls_UI:
+        LSOTFrameHolder
 ]]
 
-function B:ObjectiveTracker()
-    local x, y = -20, -320
+local var = {
+    x = -20,
+    y = -320
+}
 
+function B:ObjectiveTracker()
     local frame = ObjectiveTrackerFrame
+
     frame:SetMovable(false)
     frame:SetParent(UIParent)
+
     frame:ClearAllPoints()
-    frame:SetPoint("TOPRIGHT", x, y)
+    frame:SetPoint("TOPRIGHT", var.x, var.y)
 
     frame.HeaderMenu.MinimizeButton:HookScript("OnClick", function()
-        frame:SetPoint("TOPRIGHT", x, y)
+        frame:SetPoint("TOPRIGHT", var.x, var.y)
     end)
+
+    E:ForceHide(LSOTFrameHolder)
 end

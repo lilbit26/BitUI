@@ -7,7 +7,13 @@ local B = Z:GetModule("Blizzard")
         ChatBubbleFont
 ]]
 
+local var = {
+    chatBubble = {
+        size = 10
+    }
+}
+
 function B:Fonts()
     -- chat bubble
-    Z:HandleFont(ChatBubbleFont, nil, 10)
+    Z:HandleFont(ChatBubbleFont, nil, var.chatBubble.size)
 end

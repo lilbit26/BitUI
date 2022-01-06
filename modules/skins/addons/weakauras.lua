@@ -36,7 +36,7 @@ local function UpdateTexCoord(icon)
     icon.handling = nil
 end
 
-local function Icon(region)
+local function HandleIcon(region)
     local cooldown = region.cooldown
     E.Cooldowns.Handle(cooldown)
 
@@ -44,6 +44,31 @@ local function Icon(region)
     size = E:Round(12 / 32 * size)
     region.cooldown.config.text.size = size
     region.cooldown:UpdateFont()
+
+    if region.subRegions then
+        for _, subregion in ipairs(region.subRegions) do
+            if subregion.type == "subtext" then
+                local point = subregion.text:GetPoint()
+                if point == "BOTTOMRIGHT" then
+                    subregion.text:ClearAllPoints()
+                    subregion.text:SetPoint("TOPLEFT", region, "TOPLEFT", 1, 1)
+                    subregion.text:SetPoint("BOTTOMRIGHT", region, "BOTTOMRIGHT", 1, 1)
+                    subregion.text:SetJustifyH("RIGHT")
+                    subregion.text:SetJustifyV("BOTTOM")
+                elseif point == "TOP" then
+                    subregion.text:ClearAllPoints()
+                    subregion.text:SetPoint("CENTER", region, "TOP", 1, 0)
+                    subregion.text:SetJustifyH("CENTER")
+                    subregion.text:SetJustifyV("MIDDLE")
+                elseif point == "BOTTOM" then
+                    subregion.text:ClearAllPoints()
+                    subregion.text:SetPoint("CENTER", region, "BOTTOM", 1, 0)
+                    subregion.text:SetJustifyH("CENTER")
+                    subregion.text:SetJustifyV("MIDDLE")
+                end
+            end
+        end
+    end
 
     if region.handled then return end
 
@@ -55,39 +80,37 @@ local function Icon(region)
     border:SetSize(16)
     border:SetOffset(-8)
 
-    region.border = border
-
-    local glow = region:CreateTexture(nil, "OVERLAY") -- TODO: sub layer
+    local glow = region:CreateTexture(nil, "OVERLAY", nil, 7)
     glow:SetAtlas("bags-newitem")
     glow:SetPoint("TOPLEFT", -8, 8)
     glow:SetPoint("BOTTOMRIGHT", 8, -8)
-    glow:SetAlpha(0.5)
+    glow:SetAlpha(0.8)
     glow:Hide()
 
-    local anim = glow:CreateAnimationGroup()
-    anim:SetLooping("REPEAT")
+    -- local anim = glow:CreateAnimationGroup()
+    -- anim:SetLooping("REPEAT")
 
-    local animIn = anim:CreateAnimation("Alpha")
-    animIn:SetDuration(0.25)
-    animIn:SetOrder(1)
-    animIn:SetFromAlpha(0.5)
-    animIn:SetToAlpha(1)
-    animIn:SetSmoothing("IN")
+    -- local animIn = anim:CreateAnimation("Alpha")
+    -- animIn:SetDuration(0.25)
+    -- animIn:SetOrder(1)
+    -- animIn:SetFromAlpha(0.5)
+    -- animIn:SetToAlpha(1)
+    -- animIn:SetSmoothing("IN")
 
-    local animOut = anim:CreateAnimation("Alpha")
-    animOut:SetDuration(0.25)
-    animOut:SetOrder(2)
-    animOut:SetFromAlpha(1)
-    animOut:SetToAlpha(0.5)
-    animOut:SetSmoothing("OUT")
+    -- local animOut = anim:CreateAnimation("Alpha")
+    -- animOut:SetDuration(0.25)
+    -- animOut:SetOrder(2)
+    -- animOut:SetFromAlpha(1)
+    -- animOut:SetToAlpha(0.5)
+    -- animOut:SetSmoothing("OUT")
 
-    glow.anim = anim
+    -- glow.anim = anim
     region.glow = glow
 
     region.handled = true
 end
 
-local function AuraBar(region)
+local function HandleAuraBar(region)
     if region.handled then return end
 
     region.handled = true
@@ -102,25 +125,25 @@ S:AddSkin("WeakAuras", function()
 
     icon.create = function(parent, data)
         local region = CreateIcon(parent, data)
-        Icon(region)
+        HandleIcon(region)
         return region
     end
 
     icon.modify = function(parent, region, data)
         ModifyIcon(parent, region, data)
-        Icon(region)
+        HandleIcon(region)
         return region
     end
 
     aurabar.create = function(parent)
         local region = CreateAuraBar(parent)
-        AuraBar(region)
+        HandleAuraBar(region)
         return region
     end
 
     aurabar.modify = function(parent, region, data)
         ModifyAurabar(parent, region, data)
-        AuraBar(region)
+        HandleAuraBar(region)
         return region
     end
 

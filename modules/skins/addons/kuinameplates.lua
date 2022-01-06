@@ -43,11 +43,12 @@ S:AddSkin("Kui_Nameplates", function()
         glass:SetTexture(Z.assetPath .. "statusbar-glass")
         glass:SetAllPoints(health)
 
-        -- TODO: if frame.NameText then do ?
         hooksecurefunc(frame, "UpdateNameTextPosition", function()
             if frame.IN_NAMEONLY then return end
 
             local text = frame.NameText
+            if not text then return end
+
             text:ClearAllPoints()
             text:SetPoint("BOTTOM", bg, "TOP", 1, core.profile.name_vertical_offset)
             text:SetJustifyH("CENTER")
@@ -55,9 +56,10 @@ S:AddSkin("Kui_Nameplates", function()
         end)
         frame:UpdateNameTextPosition()
 
-        -- TODO: if frame.SpellName then do ?
         hooksecurefunc(frame, "UpdateSpellNamePosition", function()
             local text = frame.SpellName
+            if not text then return end
+
             text:ClearAllPoints()
             text:SetJustifyH("CENTER")
             text:SetJustifyV("CENTER")

@@ -21,7 +21,7 @@ Z:RegisterEvent("PLAYER_LOGIN", function()
 
     -- camera
     SetCVar("test_cameraDynamicPitch", 1)
-    SetCVar("test_cameraDynamicPitchBaseFovPad", 0.75)
+    SetCVar("test_cameraDynamicPitchBaseFovPad", 0.7)
     SetCVar("test_cameraDynamicPitchBaseFovPadDownScale", 1)
 
     UIParent:UnregisterEvent("EXPERIMENTAL_CVAR_CONFIRMATION_NEEDED") -- disable blizzard's popup
