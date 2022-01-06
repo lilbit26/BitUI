@@ -48,22 +48,25 @@ function UF:Castbar(frame)
     if castbar._config.detached then
         local time, text = castbar.Time, castbar.Text
 
-        time:SetPoint("RIGHT", castbar, "RIGHT", -4, 0)
-        text:SetPoint("LEFT", castbar, "LEFT", 4, 0)
+        time:ClearAllPoints()
+        time:SetPoint("TOPLEFT", castbar, "TOPLEFT", 6, 1)
+        time:SetPoint("BOTTOMRIGHT", castbar, "BOTTOMRIGHT", -6, 0)
+        time:SetJustifyH("RIGHT")
+        time:SetJustifyV("MIDDLE")
+
+        text:ClearAllPoints()
+        text:SetPoint("TOPLEFT", castbar, "TOPLEFT", 6, 1)
+        text:SetPoint("BOTTOMRIGHT", castbar, "BOTTOMRIGHT", -6, 0)
+        text:SetJustifyH("LEFT")
+        text:SetJustifyV("MIDDLE")
 
         local inlay = E:CreateBorder(castbar, "OVERLAY", 6)
         inlay:SetTexture(Z.assetPath .. "unit-frame-inlay-right")
         inlay:SetAlpha(0.8)
 
+        parent.Border:SetTexture(Z.assetPath .. "border-thick")
         E:ForceHide(parent.Tube[5])
-
-        Z:HandleStatusBar(parent, "thick")
     else
-        castbar.Text:SetJustifyV("BOTTOM")
-        castbar.Time:SetJustifyV("BOTTOM")
-
-        Z:HandleStatusBar(parent, "thin", "TOP")
-
         local name = frame.Name
 
         if name then
@@ -84,6 +87,8 @@ function UF:Castbar(frame)
                 name:SetPoint(p, rT, rP, x, y)
             end)
         end
+
+        Z:CutStatusBar(parent, "TOP")
     end
 
     UpdateSize_Hook(castbar)

@@ -29,6 +29,7 @@ modules\unitframes\elements\auras.lua
 modules\unitframes\elements\castbar.lua
 modules\unitframes\units\boss.lua
 modules\unitframes\units\focus.lua
+modules\unitframes\units\pet.lua
 modules\unitframes\units\player.lua
 modules\unitframes\units\target.lua
 modules\skins\core.lua

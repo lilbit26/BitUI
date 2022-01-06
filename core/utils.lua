@@ -16,20 +16,20 @@ hooksecurefunc(E.Cooldowns, "Handle", function(cooldown)
 end)
 
 -- statusbar
--- hooksecurefunc(E, "SetStatusBarSkin", function(_, object, flag)
---     for i = 1, 4 do
---         E:ForceHide(object.Tube[i])
---     end
+hooksecurefunc(E, "SetStatusBarSkin", function(_, object)
+    for i = 1, 4 do
+        E:ForceHide(object.Tube[i])
+    end
 
---     if not object.border then
---         local border = E:CreateBorder(object)
---         border:SetTexture(Z.assetPath .. "border-thin")
---         border:SetSize(16)
---         border:SetOffset(-8)
+    if not object.Border then
+        local border = E:CreateBorder(object)
+        border:SetTexture(Z.assetPath .. "border-thin")
+        border:SetSize(16)
+        border:SetOffset(-8)
 
---         object.border = border
---     end
--- end)
+        object.Border = border
+    end
+end)
 
 -- utils
 E.FormatNumber = function(_, v)
@@ -63,49 +63,32 @@ function Z:HandleFont(object, font, size, flag, shadow)
     end
 end
 
-local function OnSizeChanged(self, _, h)
-    local border, cut = self.border, self.cut
+do
+    local function OnSizeChanged(self, _, h)
+        local border = self.Border
+        if not border then return end
 
-    border[cut]:Hide()
-    border[cut .. "LEFT"]:Hide()
-    border[cut .. "RIGHT"]:Hide()
+        local side = self.side
 
-    local tile = (h - 8) / 16
-    if tile > 0 then
-        border.LEFT:SetTexCoord(0, 0.125, 0, tile)
-        border.RIGHT:SetTexCoord(0.125, 0.25, 0, tile)
+        border[side]:Hide()
+        border[side .. "LEFT"]:Hide()
+        border[side .. "RIGHT"]:Hide()
 
-        border.LEFT:SetPoint(cut .. "LEFT", self, -8, 0)
-        border.RIGHT:SetPoint(cut .. "RIGHT", self, 8, 0)
-    else
-        border.LEFT:Hide()
-        border.RIGHT:Hide()
-    end
-end
+        local tile = (h - 8) / 16
+        if tile > 0 then
+            border.LEFT:SetTexCoord(0, 0.125, 0, tile)
+            border.RIGHT:SetTexCoord(0.125, 0.25, 0, tile)
 
-function Z:HandleStatusBar(object, flag, cut)
-    if object.Tube then
-        for i = 1, 4 do
-            E:ForceHide(object.Tube[i])
+            border.LEFT:SetPoint(side .. "LEFT", self, -8, 0)
+            border.RIGHT:SetPoint(side .. "RIGHT", self, 8, 0)
+        else
+            border.LEFT:Hide()
+            border.RIGHT:Hide()
         end
-    else
-        local glass = object:CreateTexture(nil, "OVERLAY")
-        glass:SetTexture(Z.assetPath .. "statusbar-glass")
-        glass:SetAllPoints()
     end
 
-    local border = object.border
-    if not border then
-        border = E:CreateBorder(object)
-        border:SetTexture(Z.assetPath .. "border-" .. flag)
-        border:SetSize(16)
-        border:SetOffset(-8)
-
-        object.border = border
-    end
-
-    if cut then
-        object.cut = cut
+    function Z:CutStatusBar(object, side)
+        object.side = side
         OnSizeChanged(object, object:GetWidth(), object:GetHeight())
         object:HookScript("OnSizeChanged", OnSizeChanged)
     end

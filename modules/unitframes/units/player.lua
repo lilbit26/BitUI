@@ -14,8 +14,8 @@ local var = {
     resource = {
         name = "BitUIResourceFrame",
         width = 48 * 6 + 4 * 5 - 2,
-        height = 22,
-        point = {"BOTTOM", UIParent, "BOTTOM", 0, 400}
+        height = 24,
+        point = {"BOTTOM", UIParent, "BOTTOM", 0, 401}
     },
     classPower = {
         height = 8
@@ -26,7 +26,17 @@ local function HandleBar(bar)
     local resource = _G[var.resource.name]
     local top = bar.__owner.Insets.Top
 
-    Z:HandleStatusBar(bar, "thin", "BOTTOM")
+    local border = E:CreateBorder(bar)
+    border:SetTexture(Z.assetPath .. "border-thin")
+    border:SetSize(16)
+    border:SetOffset(-8)
+    bar.Border = border
+
+    Z:CutStatusBar(bar, "BOTTOM")
+
+    local glass = bar:CreateTexture(nil, "OVERLAY")
+    glass:SetTexture(Z.assetPath .. "statusbar-glass")
+    glass:SetAllPoints()
 
     local bg = bar:CreateTexture(nil, "BACKGROUND", nil, -7)
     bg:SetAllPoints()

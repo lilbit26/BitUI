@@ -14,10 +14,10 @@ function B:XPBar()
     local bar = LSUIXPBar
     if not bar then return end
 
-    Z:HandleStatusBar(bar.TexParent, "thick")
-    bar.TexParent.Tube[5]:Hide()
+    bar.TexParent.Border:SetTexture(Z.assetPath .. "border-thick")
+    E:ForceHide(bar.TexParent.Tube[5])
 
-    local inlay = E:CreateBorder(bar.TexParent, "OVERLAY")
+    local inlay = E:CreateBorder(bar.TexParentject, "OVERLAY")
     inlay:SetTexture(Z.assetPath .. "unit-frame-inlay-both")
     inlay:SetAlpha(0.8)
 end
